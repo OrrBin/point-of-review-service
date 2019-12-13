@@ -4,6 +4,9 @@ import lombok.Value;
 
 import java.util.List;
 
+/*
+A review of someone on an uploaded code, a collection of <CodeReviewSection>.
+*/
 @Value
 public class CodeReview {
     String id;

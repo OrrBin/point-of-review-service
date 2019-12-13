@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/*
+Represent a code review on a <CodeRange>.
+*/
+
 @Getter
 @Setter
 @AllArgsConstructor
