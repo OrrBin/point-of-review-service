@@ -12,5 +12,4 @@ public class Comment {
     String content;
     List<Tag> tags;
     Score score;
-
 }

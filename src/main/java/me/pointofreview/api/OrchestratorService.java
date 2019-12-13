@@ -13,4 +13,3 @@ public class OrchestratorService {
         return new Score(0.5f, 5, 6, 1);
     }
 }
-
