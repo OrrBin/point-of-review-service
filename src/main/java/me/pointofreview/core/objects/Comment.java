@@ -1,12 +1,15 @@
 package me.pointofreview.core.objects;
 
-import lombok.NonNull;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-@Value
-@NonNull
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level=AccessLevel.PRIVATE)
 public class Comment {
     String id;
     long timestamp;

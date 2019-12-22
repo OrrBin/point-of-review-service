@@ -1,15 +1,19 @@
 package me.pointofreview.core.objects;
 
-import lombok.NonNull;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
 /*
 A review of someone on an uploaded code, a collection of <CodeReviewSection>.
 */
-@Value
-@NonNull
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level=AccessLevel.PRIVATE)
 public class CodeReview {
     String id;
     long timestamp;

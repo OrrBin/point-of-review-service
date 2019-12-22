@@ -73,6 +73,10 @@ public class InMemoryDataStore implements ModelDataStore {
 
     @Override
     public List<CodeSnippet> getCodeSnippetsByUserId(String userId) {
+        var user = userDataStore.getUser(userId);
+        if(user == null)
+            return null;
+
         List<CodeSnippet> result = new ArrayList<>();
         for(var snippet : codeSnippets.values()) {
             if(snippet.getUserId().equals(userId))
