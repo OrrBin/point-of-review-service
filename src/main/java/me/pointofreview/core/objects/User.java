@@ -1,10 +1,12 @@
 package me.pointofreview.core.objects;
 
+import lombok.NonNull;
 import lombok.Value;
 
 @Value
+@NonNull
 public class User {
     String name;
-    int id;
+    String id;
     Reputation reputation;
 }
