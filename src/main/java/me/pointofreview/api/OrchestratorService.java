@@ -1,7 +1,7 @@
 package me.pointofreview.api;
 
 import lombok.extern.slf4j.Slf4j;
-import me.pointofreview.core.datafilter.CodeSnippetsFilter;
+import me.pointofreview.core.data.filter.CodeSnippetsFilter;
 import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
