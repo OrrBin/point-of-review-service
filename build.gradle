@@ -25,7 +25,9 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//runtimeOnly 'mysql:mysql-connector-java'
   	implementation 'org.projectlombok:lombok:1.18.10'
-  	annotationProcessor 'org.projectlombok:lombok:1.18.10'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

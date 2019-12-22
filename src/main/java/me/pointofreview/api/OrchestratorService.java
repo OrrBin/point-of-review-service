@@ -5,6 +5,7 @@ import me.pointofreview.core.data.filter.CodeSnippetsFilter;
 import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class OrchestratorService {
     private final ModelDataStore dataStore;
 
     @Autowired
-    public OrchestratorService(ModelDataStore dataStore) {
+    public OrchestratorService(@Qualifier("mongoDataStore") ModelDataStore dataStore) {
         this.dataStore = dataStore;
     }
 
@@ -61,7 +62,7 @@ public class OrchestratorService {
 
     @PostMapping("/snippets")
     public ResponseEntity<CodeSnippet> createCodeSnippet(@RequestBody CodeSnippet snippet) {
-        snippet.setId(UUID.randomUUID().toString());
+        snippet.setSnippetId(UUID.randomUUID().toString());
         var result = dataStore.createCodeSnippet(snippet);
         if(!result)
             return new ResponseEntity<>(HttpStatus.CONFLICT);

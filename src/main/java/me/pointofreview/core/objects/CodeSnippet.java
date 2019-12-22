@@ -2,6 +2,7 @@ package me.pointofreview.core.objects;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -11,7 +12,8 @@ import java.util.List;
 @Setter
 @FieldDefaults(level=AccessLevel.PRIVATE)
 public class CodeSnippet {
-    String id;
+    @Id
+    String snippetId;
     long timestamp;
     String userId;
     String description;

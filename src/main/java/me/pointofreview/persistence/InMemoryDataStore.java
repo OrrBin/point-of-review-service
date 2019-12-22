@@ -88,10 +88,10 @@ public class InMemoryDataStore implements ModelDataStore {
 
     @Override
     public boolean createCodeSnippet(CodeSnippet snippet) {
-        if(codeSnippets.containsKey(snippet.getId()))
+        if(codeSnippets.containsKey(snippet.getSnippetId()))
             return false;
 
-        codeSnippets.put(snippet.getId(), snippet);
+        codeSnippets.put(snippet.getSnippetId(), snippet);
         return true;
     }
 
