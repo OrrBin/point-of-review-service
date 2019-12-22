@@ -1,9 +1,8 @@
 package me.pointofreview.api;
 
+import lombok.extern.slf4j.Slf4j;
 import me.pointofreview.core.data.filter.CodeSnippetsFilter;
-import me.pointofreview.core.objects.CodeReview;
-import me.pointofreview.core.objects.CodeSnippet;
-import me.pointofreview.core.objects.Comment;
+import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@Slf4j
 public class OrchestratorService {
 
     private final ModelDataStore dataStore;
@@ -26,7 +27,8 @@ public class OrchestratorService {
 
     @GetMapping("/snippets/recent")
     public List<CodeSnippet> recentSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
-        return dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.RECENT, maximumNumber));
+//        return dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.RECENT, maximumNumber));
+        return Collections.singletonList(new CodeSnippet("testId", System.currentTimeMillis(), "userId", "description", new Code("code line"), new ArrayList<>(), new ArrayList<>(), new Score(1,1,1, 1)));
     }
 
     @GetMapping("/snippets/popular")

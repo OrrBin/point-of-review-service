@@ -1,6 +1,7 @@
 package me.pointofreview.core.objects;
 
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -8,7 +9,11 @@ import java.util.List;
 Represents a part of a code.
 For example, a part of the code to be reviewed.
 */
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CodeRange {
 
     List<RowRange> rows;

@@ -1,8 +1,7 @@
 package me.pointofreview.core.objects;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -10,9 +9,11 @@ import java.util.List;
 Represent a code review on a <CodeRange>.
 */
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CodeReviewSection {
 
     String id;

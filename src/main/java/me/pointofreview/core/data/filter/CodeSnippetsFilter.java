@@ -1,12 +1,17 @@
 package me.pointofreview.core.data.filter;
 
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import me.pointofreview.core.objects.CodeSnippet;
 import me.pointofreview.core.objects.Tag;
 
 import java.util.List;
 
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CodeSnippetsFilter {
     List<Tag> tags;
     SortBy sortBy;
