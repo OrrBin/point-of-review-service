@@ -21,6 +21,17 @@ public class InMemoryUserDataStore implements UserDataStore {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public User getUserByUsernameAndPassword(String username, String password) {
+        return null;
+    }
+
+
+    @Override
     public boolean createUser(User user) {
         if (users.containsKey(user.getId()))
             return false;

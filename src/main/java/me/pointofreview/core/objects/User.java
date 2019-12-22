@@ -9,7 +9,8 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-    String name;
+    String username;
+    String password;
     String id;
     Reputation reputation;
 }

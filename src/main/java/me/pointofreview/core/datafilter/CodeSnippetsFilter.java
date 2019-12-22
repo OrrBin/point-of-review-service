@@ -1,4 +1,4 @@
-package me.pointofreview.core.data.filter;
+package me.pointofreview.core.datafilter;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

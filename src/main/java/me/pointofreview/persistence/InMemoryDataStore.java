@@ -1,6 +1,6 @@
 package me.pointofreview.persistence;
 
-import me.pointofreview.core.data.filter.CodeSnippetsFilter;
+import me.pointofreview.core.datafilter.CodeSnippetsFilter;
 import me.pointofreview.core.objects.CodeReview;
 import me.pointofreview.core.objects.CodeSnippet;
 import me.pointofreview.core.objects.Comment;
