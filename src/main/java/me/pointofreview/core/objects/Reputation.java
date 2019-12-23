@@ -20,5 +20,4 @@ public class Reputation {
     void increaseReputation(int delta){
         reputation+=delta;
     }
-
 }
