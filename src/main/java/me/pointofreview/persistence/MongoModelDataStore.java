@@ -13,23 +13,19 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class MongoDataStore implements ModelDataStore {
+public class MongoModelDataStore implements ModelDataStore {
 
     @Autowired
     MongoTemplate mongoTemplate;
 
     @Override
     public List<CodeSnippet> getCodeSnippets(CodeSnippetsFilter filter) {
-        return mongoTemplate.findAll(CodeSnippet.class);
+        return mongoTemplate.findAll(CodeSnippet.class); // TODO: use filter
     }
 
     @Override
     public CodeSnippet getCodeSnippet(String snippetId) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
-        if(snippet == null)
-            return null;
-
-        return snippet;
+        return mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
     }
 
     @Override
@@ -46,7 +42,7 @@ public class MongoDataStore implements ModelDataStore {
     @Override
     public boolean createComment(Comment comment) {
         var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(comment.getCodeSnippetId())), CodeSnippet.class);
-        if(snippet == null)
+        if (snippet == null)
             return false;
 
         var review = snippet.getReview(comment.getCodeReviewId());
@@ -58,9 +54,9 @@ public class MongoDataStore implements ModelDataStore {
     }
 
     @Override
-    public boolean createCodeReview(CodeReview review) {
+    public boolean addCodeReview(CodeReview review) {
         var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(review.getCodeSnippetId())), CodeSnippet.class);
-        if(snippet == null)
+        if (snippet == null)
             return false;
         snippet.addReview(review);
 

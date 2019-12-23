@@ -1,13 +1,7 @@
 package me.pointofreview;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import lombok.extern.slf4j.Slf4j;
-import me.pointofreview.core.objects.Code;
-import me.pointofreview.core.objects.CodeSnippet;
-import me.pointofreview.core.objects.Score;
-import me.pointofreview.persistence.MongoDataStore;
+import me.pointofreview.persistence.MongoModelDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 public class Application {
 
     @Autowired
-    private MongoDataStore repository;
+    private MongoModelDataStore repository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

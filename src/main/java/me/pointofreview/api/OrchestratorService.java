@@ -22,7 +22,7 @@ public class OrchestratorService {
     private final ModelDataStore dataStore;
 
     @Autowired
-    public OrchestratorService(@Qualifier("mongoDataStore") ModelDataStore dataStore) {
+    public OrchestratorService(@Qualifier("mongoModelDataStore") ModelDataStore dataStore) {
         this.dataStore = dataStore;
     }
 
@@ -73,7 +73,7 @@ public class OrchestratorService {
     @PostMapping("/reviews")
     public ResponseEntity<CodeReview> createCodeReview(@RequestBody CodeReview review) {
         review.setId(UUID.randomUUID().toString());
-        var result = dataStore.createCodeReview(review);
+        var result = dataStore.addCodeReview(review);
         if(!result)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

@@ -16,7 +16,10 @@ public class InMemoryUserDataStore implements UserDataStore {
     }
 
     @Override
-    public User getUser(String userId) {
+    public boolean existsUsername(String username) { return false; }
+
+    @Override
+    public User getUserById(String userId) {
         return users.get(userId);
     }
 
@@ -26,8 +29,8 @@ public class InMemoryUserDataStore implements UserDataStore {
     }
 
     @Override
-    public User getUserByUsernameAndPassword(String username, String password) {
-        return null;
+    public boolean checkUsernameAndPassword(String username, String password) {
+        return false;
     }
 
 

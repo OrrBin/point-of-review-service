@@ -5,6 +5,7 @@ import me.pointofreview.core.objects.Reputation;
 import me.pointofreview.core.objects.User;
 import me.pointofreview.persistence.UserDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,24 +19,24 @@ public class UserAuthentication {
     private final UserDataStore userDataStore;
 
     @Autowired
-    public UserAuthentication(UserDataStore userDataStore) {
+    public UserAuthentication(@Qualifier("mongoUserDataStore") UserDataStore userDataStore) {
         this.userDataStore = userDataStore;
     }
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody AuthenticationRequest request) {
-        var result = userDataStore.getUserByUsernameAndPassword(request.username, request.password);
-        if (result == null)
+        if (!userDataStore.checkUsernameAndPassword(request.username, request.password))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        var user = userDataStore.getUserByUsername(request.username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody AuthenticationRequest request) {
-        var result = userDataStore.getUserByUsername(request.username);
-        if (result != null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // username already exists
+
+        if (userDataStore.existsUsername(request.username))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
 
         var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation());
         var created = userDataStore.createUser(user);

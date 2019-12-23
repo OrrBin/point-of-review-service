@@ -6,6 +6,7 @@ import me.pointofreview.core.objects.CodeSnippet;
 import me.pointofreview.core.objects.Comment;
 import me.pointofreview.core.objects.Score;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -18,7 +19,7 @@ public class InMemoryDataStore implements ModelDataStore {
     private Map<String, CodeSnippet> codeSnippets;
 
     @Autowired
-    public InMemoryDataStore(UserDataStore userDataStore) {
+    public InMemoryDataStore(@Qualifier("inMemoryUserDataStore") UserDataStore userDataStore) {
         this.userDataStore = userDataStore;
         codeSnippets = new HashMap<>();
     }
@@ -73,7 +74,7 @@ public class InMemoryDataStore implements ModelDataStore {
 
     @Override
     public List<CodeSnippet> getCodeSnippetsByUserId(String userId) {
-        var user = userDataStore.getUser(userId);
+        var user = userDataStore.getUserById(userId);
         if(user == null)
             return null;
 
@@ -111,7 +112,7 @@ public class InMemoryDataStore implements ModelDataStore {
     }
 
     @Override
-    public boolean createCodeReview(CodeReview review) {
+    public boolean addCodeReview(CodeReview review) {
         var snippet = codeSnippets.get(review.getCodeSnippetId());
         if(snippet == null)
             return false;
