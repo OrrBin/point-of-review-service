@@ -5,8 +5,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-/*
-Represent a code review on a <CodeRange>.
+/**
+ * Represent a part of a code review (on a specific <CodeRange>)
 */
 
 @AllArgsConstructor

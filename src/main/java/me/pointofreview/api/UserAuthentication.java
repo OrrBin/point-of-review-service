@@ -38,6 +38,19 @@ public class UserAuthentication {
         if (userDataStore.existsUsername(request.username))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
+        char c = request.username.toLowerCase().charAt(0);
+
+        // Check user and password are legal
+        if (!(request.username.length() >= 5 && request.username.length() <= 12))
+            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+
+        if (!(request.password.length() >= 5 && request.password.length() <= 12))
+            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+
+        if (!(c >= 'a' && c <= 'z')) // username doesn't start with a letter
+            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+
+        // Create user
         var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation());
         var created = userDataStore.createUser(user);
 

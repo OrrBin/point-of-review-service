@@ -3,6 +3,10 @@ package me.pointofreview.core.objects;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * A Tag object.
+ */
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

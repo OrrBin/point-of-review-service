@@ -6,6 +6,10 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
+/**
+ * Represents a code, to be reviewed.
+ */
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

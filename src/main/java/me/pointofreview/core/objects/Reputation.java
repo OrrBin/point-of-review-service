@@ -1,5 +1,8 @@
 package me.pointofreview.core.objects;
 
+/**
+ * Represents User reputation.
+ */
 
 public class Reputation {
     int reputation;

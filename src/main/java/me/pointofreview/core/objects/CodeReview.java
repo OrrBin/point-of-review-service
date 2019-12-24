@@ -5,8 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-/*
-A review of someone on an uploaded code, a collection of <CodeReviewSection>.
+/**
+ * A single review on an uploaded code.
+ * Contains a collection of {@link CodeReviewSection}.
 */
 
 @AllArgsConstructor
