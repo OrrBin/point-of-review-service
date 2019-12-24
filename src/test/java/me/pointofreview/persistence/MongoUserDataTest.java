@@ -1,24 +1,19 @@
-import lombok.Getter;
+package me.pointofreview.persistence;
+
 import me.pointofreview.Application;
-import me.pointofreview.persistence.ModelDataStore;
-import me.pointofreview.persistence.MongoModelDataStore;
-import me.pointofreview.persistence.MongoUserDataStore;
-import me.pointofreview.persistence.UserDataStore;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestContextManager;
 
-
+//@DataMongoTest
 @SpringBootTest(classes = Application.class)
-public class SimpleTest {
+public class MongoUserDataTest {
 
-    @Getter
     private ApplicationContext context;
-
     private ModelDataStore dataStore;
-    private UserDataStore userDataStore;
+//    private MongoTemplate mongoTemplate;
 
     @Before
     public void initializeTestEnvironment() throws Exception {
@@ -27,11 +22,8 @@ public class SimpleTest {
         context = testManager.getTestContext().getApplicationContext();
 
         dataStore = context.getBean(MongoModelDataStore.class);
-        userDataStore = context.getBean(MongoUserDataStore.class);
     }
 
     @Test
-    public void test() {
-        assert dataStore.getCodeSnippetsByUserId("NO_SUCH_USER_EXISTS").isEmpty();
-    }
+    public void test() {}
 }
