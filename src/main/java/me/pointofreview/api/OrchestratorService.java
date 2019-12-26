@@ -29,7 +29,7 @@ public class OrchestratorService {
     @GetMapping("/snippets/recent")
     public List<CodeSnippet> recentSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
 //        return dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.RECENT, maximumNumber));
-        return Collections.singletonList(new CodeSnippet("testId", System.currentTimeMillis(), "userId", "description", new Code("code line"), new ArrayList<>(), new ArrayList<>(), new Score(1,1,1, 1)));
+        return Collections.singletonList(new CodeSnippet("testId", System.currentTimeMillis(), "userId", "title", "description", new Code("code line"), new ArrayList<>(), new ArrayList<>(), new Score(1,1,1, 1)));
     }
 
     @GetMapping("/snippets/popular")
