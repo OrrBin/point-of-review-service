@@ -58,7 +58,7 @@ public class UserAuthentication {
         var created = userDataStore.createUser(user);
 
         if (!created)
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // user id already exists
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED); // user id already exists
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
