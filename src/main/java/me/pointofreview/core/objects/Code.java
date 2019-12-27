@@ -13,4 +13,5 @@ The code of a code review request.
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Code {
     String text;
+    String language;
 }
