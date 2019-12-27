@@ -11,7 +11,7 @@ import org.springframework.test.context.TestContextManager;
 
 //@DataMongoTest
 @SpringBootTest(classes = Application.class)
-public class MongoUserDataTest {
+public class TestMongoUserData {
 
     private ApplicationContext context;
     private ModelDataStore dataStore;
@@ -31,4 +31,6 @@ public class MongoUserDataTest {
     public void test() {
         mongoTemplate.findAll(CodeSnippet.class);
     }
+
+    // TODO: add tests
 }

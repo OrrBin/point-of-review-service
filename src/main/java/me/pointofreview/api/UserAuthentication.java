@@ -27,6 +27,7 @@ public class UserAuthentication {
      * Attempt to log in.
      * @param request contains username and password
      * @return {@link User} if username and password match, null otherwise
+     * @HttpStatus UNAUTHORIZED - user and password don't match
      */
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody AuthenticationRequest request) {
@@ -43,6 +44,9 @@ public class UserAuthentication {
      * Username should start with a letter.
      * @param request contains username and password to register
      * @return {@link User} of the created user if succeed, null otherwise
+     * @HttpStatus CONFLICT - username already in the system
+     * @HttpStatus PRECONDITION_FAILED - invalid username/password format
+     * @HttpStatus SERVICE_UNAVAILABLE - generated an existing key (server error)
      */
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody AuthenticationRequest request) {
@@ -58,7 +62,7 @@ public class UserAuthentication {
         var created = userDataStore.createUser(user);
 
         if (!created)
-            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED); // user id already exists
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE); // user id already exists
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
