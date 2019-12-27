@@ -20,6 +20,7 @@ public class CodeSnippet {
     String snippetId;
     long timestamp;
     String userId;
+    String title;
     String description;
     Code code;
     List<CodeReview> reviews;
