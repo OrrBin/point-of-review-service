@@ -1,9 +1,7 @@
 package me.pointofreview.persistence;
 
 import me.pointofreview.core.data.filter.CodeSnippetsFilter;
-import me.pointofreview.core.objects.CodeReview;
-import me.pointofreview.core.objects.CodeSnippet;
-import me.pointofreview.core.objects.Comment;
+import me.pointofreview.core.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -64,4 +62,43 @@ public class MongoModelDataStore implements ModelDataStore {
 
         return true;
     }
+
+    @Override
+    public CodeReview getCodeReview(String snippetId,String codeReviewId) {
+        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
+        return snippet != null ? snippet.getReview(codeReviewId) : null;
+    }
+
+    @Override
+    public CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId) {
+        var codeReview = getCodeReview(snippetId,codeReviewId);
+        return codeReview != null ? codeReview.getCodeReviewSection(sectionId) : null;
+    }
+
+//    @Override
+//    public boolean updateCodeReviewSectionImpressions(CodeReviewSection codeReviewSection, String userId, Impression impression) {
+//
+//        if (codeReviewSection==null)
+//            return false;
+//
+//        codeReviewSection.updateImpressions(userId,impression);
+//
+//        mongoTemplate.save(codeReviewSection);
+//
+//        return true;
+//    }
+
+    @Override
+    public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
+
+        if (codeSnippet==null)
+            return false;
+
+        codeSnippet.updateImpressions(userId,impression);
+
+        mongoTemplate.save(codeSnippet);
+
+        return true;
+    }
+
 }

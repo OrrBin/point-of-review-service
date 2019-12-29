@@ -88,4 +88,27 @@ public class OrchestratorService {
 
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
+
+//    @PostMapping("/reviews/section/impressions")
+//    public ResponseEntity<CodeReviewSection> updateSectionImpressions(@RequestBody ImpressionRequest request) {
+//        var result = dataStore.getCodeReviewSection(request.codeSnippetId,request.codeReviewId,request.codeReviewSectionId);
+//        if (result == null){
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//        dataStore.updateCodeReviewSectionImpressions(result,request.voterId,request.impression);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//
+//    }
+
+    @PostMapping("/snippets/impressions")
+    public ResponseEntity<CodeSnippet> updateSnippetImpressions(@RequestBody ImpressionRequest request) {
+        var snippet = request.snippet;
+        if (snippet == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        dataStore.updateCodeSnippetImpressions(snippet,request.voterId,request.impression);
+        return new ResponseEntity<>(snippet, HttpStatus.OK);
+
+    }
+
 }

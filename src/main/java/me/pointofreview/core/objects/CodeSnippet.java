@@ -39,4 +39,12 @@ public class CodeSnippet {
 
         return null;
     }
+
+    public void updateImpressions(String userId,Impression impression) {
+        score.updateImpressions(userId,impression);
+    }
+
+    public int impressionCounter(Impression impression){
+        return score.impressionCounter(impression);
+    }
 }
