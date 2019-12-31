@@ -101,13 +101,13 @@ public class OrchestratorService {
 //    }
 
     @PostMapping("/snippets/impressions")
-    public ResponseEntity<CodeSnippet> updateSnippetImpressions(@RequestBody ImpressionRequest request) {
+    public ResponseEntity<Score> updateSnippetImpressions(@RequestBody ImpressionRequest request) {
         var snippet = request.snippet;
         if (snippet == null){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         dataStore.updateCodeSnippetImpressions(snippet,request.voterId,request.impression);
-        return new ResponseEntity<>(snippet, HttpStatus.OK);
+        return new ResponseEntity<>(snippet.getScore(), HttpStatus.OK);
 
     }
 
