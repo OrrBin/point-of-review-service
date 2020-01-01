@@ -50,4 +50,9 @@ public interface ModelDataStore {
      * @return true if the insertion was successful, and false otherwise
      */
     boolean addCodeReview(CodeReview review);
+
+    /**
+     * Get list of all the code snippets.
+     */
+    List<CodeSnippet> getAllCodeSnippets();
 }

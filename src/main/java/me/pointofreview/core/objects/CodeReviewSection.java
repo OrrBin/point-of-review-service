@@ -20,7 +20,6 @@ public class CodeReviewSection {
     String userId;
     String codeSnippetId;
     String codeReviewId;
-    CodeChunk sourceCode;
     String content;
     List<Tag> tags;
     List<Comment> comments;

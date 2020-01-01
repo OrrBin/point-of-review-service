@@ -64,4 +64,10 @@ public class MongoModelDataStore implements ModelDataStore {
 
         return true;
     }
+
+    @Override
+    public List<CodeSnippet> getAllCodeSnippets() {
+        return mongoTemplate.findAll(CodeSnippet.class);
+    }
+
 }

@@ -120,4 +120,9 @@ public class InMemoryDataStore implements ModelDataStore {
         snippet.addReview(review);
         return true;
     }
+
+    @Override
+    public List<CodeSnippet> getAllCodeSnippets() {
+        return null;
+    }
 }

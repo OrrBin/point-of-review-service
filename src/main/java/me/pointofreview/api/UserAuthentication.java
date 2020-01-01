@@ -27,7 +27,7 @@ public class UserAuthentication {
      * Attempt to log in.
      * @param request contains username and password
      * @return {@link User} if username and password match, null otherwise
-     * @HttpStatus UNAUTHORIZED - user and password don't match
+     * @HttpStatus UNAUTHORIZED - username and password don't match
      */
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody AuthenticationRequest request) {
