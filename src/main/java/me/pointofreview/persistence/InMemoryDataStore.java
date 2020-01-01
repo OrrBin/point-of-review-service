@@ -1,10 +1,7 @@
 package me.pointofreview.persistence;
 
 import me.pointofreview.core.data.filter.CodeSnippetsFilter;
-import me.pointofreview.core.objects.CodeReview;
-import me.pointofreview.core.objects.CodeSnippet;
-import me.pointofreview.core.objects.Comment;
-import me.pointofreview.core.objects.Score;
+import me.pointofreview.core.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -122,7 +119,38 @@ public class InMemoryDataStore implements ModelDataStore {
     }
 
     @Override
-    public List<CodeSnippet> getAllCodeSnippets() {
-        return null;
+    public CodeReview getCodeReview(String snippetId, String codeReviewId) {
+        var snippet = codeSnippets.get(snippetId);
+        if(snippet == null)
+            return null;
+        return snippet.getReview(codeReviewId);
+    }
+
+    @Override
+    public CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId) {
+        var snippet = codeSnippets.get(snippetId);
+        if(snippet == null)
+            return null;
+        var codeReview =  snippet.getReview(codeReviewId);
+        if(codeReview == null)
+            return null;
+        return codeReview.getCodeReviewSection(sectionId);
+
+    }
+
+//    @Override
+//    public boolean updateCodeReviewSectionImpressions(CodeReviewSection codeReviewSection, String userId, Impression impression) {
+//        if (codeReviewSection == null)
+//            return false;
+//        codeReviewSection.updateImpressions(userId,impression);
+//        return true;
+//    }
+
+    @Override
+    public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
+        if (codeSnippet == null)
+            return false;
+        codeSnippet.updateImpressions(userId,impression);
+        return true;
     }
 }

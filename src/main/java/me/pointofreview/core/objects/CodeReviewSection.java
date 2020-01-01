@@ -25,5 +25,13 @@ public class CodeReviewSection {
     List<Comment> comments;
     Score score;
 
+    public int impressionCounter(Impression impression){
+        return score.impressionCounter(impression);
+    }
+
+    public void updateImpressions(String userId,Impression impression) {
+        score.updateImpressions(userId,impression);
+    }
+
 
 }

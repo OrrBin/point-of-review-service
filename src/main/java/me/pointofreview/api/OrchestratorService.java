@@ -28,8 +28,7 @@ public class OrchestratorService {
 
     @GetMapping("/snippets/recent")
     public List<CodeSnippet> recentSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
-//        return dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.RECENT, maximumNumber));
-        return Collections.singletonList(new CodeSnippet("testId", System.currentTimeMillis(), "userId", "title", "description", new Code("code line"), new ArrayList<>(), new ArrayList<>(), new Score(1,1,1, 1)));
+        return dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.RECENT, maximumNumber));
     }
 
     @GetMapping("/snippets/popular")
@@ -89,4 +88,27 @@ public class OrchestratorService {
 
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
+
+//    @PostMapping("/reviews/section/impressions")
+//    public ResponseEntity<CodeReviewSection> updateSectionImpressions(@RequestBody ImpressionRequest request) {
+//        var result = dataStore.getCodeReviewSection(request.codeSnippetId,request.codeReviewId,request.codeReviewSectionId);
+//        if (result == null){
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//        dataStore.updateCodeReviewSectionImpressions(result,request.voterId,request.impression);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//
+//    }
+
+    @PostMapping("/snippets/impressions")
+    public ResponseEntity<Score> updateSnippetImpressions(@RequestBody ImpressionRequest request) {
+        var snippet = request.snippet;
+        if (snippet == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        dataStore.updateCodeSnippetImpressions(snippet,request.voterId,request.impression);
+        return new ResponseEntity<>(snippet.getScore(), HttpStatus.OK);
+
+    }
+
 }

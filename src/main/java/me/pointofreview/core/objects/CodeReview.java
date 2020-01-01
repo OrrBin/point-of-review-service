@@ -29,4 +29,12 @@ public class CodeReview {
     public void addComment(Comment comment) {
         comments.add(comment);
     }
+
+    public CodeReviewSection getCodeReviewSection(String sectionId) {
+        for (var section : sections) {
+            if (section.getId().equals(sectionId))
+                return section;
+        }
+        return null;
+    }
 }
