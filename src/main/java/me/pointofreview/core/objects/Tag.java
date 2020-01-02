@@ -14,4 +14,11 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tag {
     String name;
+    String type;
+
+    public Tag(String name){
+        this.name = name;
+    }
+
+
 }

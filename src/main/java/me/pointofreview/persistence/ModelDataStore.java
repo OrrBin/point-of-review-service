@@ -9,6 +9,7 @@ public interface ModelDataStore {
 
     /**
      * Get list of code snippets that satisfy a condition.
+     *
      * @param filter {@link CodeSnippetsFilter} object with the conditions
      * @return the list of code snippets
      */
@@ -16,6 +17,7 @@ public interface ModelDataStore {
 
     /**
      * Get code snippet by snippet ID
+     *
      * @param snippetId the snippet ID
      * @return CodeSnippet if exists one with the ID, null otherwise
      */
@@ -23,6 +25,7 @@ public interface ModelDataStore {
 
     /**
      * Get list of code snippets which belongs to the user with the ID
+     *
      * @param userId the user ID
      * @return list of code snippets, may be empty
      */
@@ -30,6 +33,7 @@ public interface ModelDataStore {
 
     /**
      * Creates a new code snippet
+     *
      * @param snippet the code snippet
      * @return true if the creation was successful, and false otherwise
      */
@@ -37,6 +41,7 @@ public interface ModelDataStore {
 
     /**
      * Creates a new comment
+     *
      * @param comment the comment
      * @return true if the creation was successful, and false otherwise
      */
@@ -44,34 +49,37 @@ public interface ModelDataStore {
 
     /**
      * Add a code review to an existing snippet, if exists
+     *
      * @param review the code review to add, also holds the snippet ID
      * @return true if the insertion was successful, and false otherwise
      */
     boolean addCodeReview(CodeReview review);
 
     /**
-     * Get list of all the code snippets.
+     * @return list of all the code snippets
      */
     List<CodeSnippet> getAllCodeSnippets();
-}
+
 
     /**
      * get a code review, if exists
+     *
      * @param codeReviewId is the Id of the desired code review
-     * @param snippetId is the Id of the code-snippet which contains the code review
+     * @param snippetId    is the Id of the code-snippet which contains the code review
      * @return the code review if the code review was found, and null otherwise
      */
-    CodeReview getCodeReview(String snippetId,String codeReviewId);
+    CodeReview getCodeReview(String snippetId, String codeReviewId);
 
 
     /**
      * get a code review section, if exists
-     * @param sectionId is the Id of the desired code review section
+     *
+     * @param sectionId    is the Id of the desired code review section
      * @param codeReviewId is the Id of the code review which contains the section
-     * @param snippetId is the code-snippet which contains the code review with the Id codeReviewId
+     * @param snippetId    is the code-snippet which contains the code review with the Id codeReviewId
      * @return the code review section if the code review section was found, and null otherwise
      */
-     CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId) ;
+    CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId);
 
 //    /**
 //     * update code-review section's impressions, if user already voted with the same impression - nothing is changed
@@ -84,11 +92,12 @@ public interface ModelDataStore {
 
     /**
      * update code-snippet's impressions, if user already voted with the same impression - nothing is changed
+     *
      * @param codeSnippet is the relevant snippet
-     * @param userId is the Id of the voting user
-     * @param impression is the voting user impression (currently: like/dislike/report)
+     * @param userId      is the Id of the voting user
+     * @param impression  is the voting user impression (currently: like/dislike/report)
      * @return true if the snippet exists, and false otherwise
      */
     boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression);
+}
 
-    }

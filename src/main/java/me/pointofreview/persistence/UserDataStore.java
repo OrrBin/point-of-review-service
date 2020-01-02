@@ -52,6 +52,11 @@ public interface UserDataStore {
     boolean updateUser(User user);
 
     /**
+     * Removes all user entries from the database.
+     */
+    void resetDatabase();
+
+    /**
      * Change password to a user
      * @param user user to update
      * @param newPassword user's new password

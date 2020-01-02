@@ -33,7 +33,7 @@ public class TestUserAuthentication {
 
         userAuth = context.getBean(UserAuthentication.class);
         mongoTemplate = context.getBean(MongoTemplate.class);
-        UserGenerator.generateUsersToDB(100, mongoTemplate);
+        UserGenerator.generateToDB(100, mongoTemplate);
     }
 
     @After

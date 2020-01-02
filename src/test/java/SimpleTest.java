@@ -1,5 +1,6 @@
 import lombok.Getter;
 import me.pointofreview.Application;
+import me.pointofreview.core.data.generator.CodeSnippetGenerator;
 import me.pointofreview.persistence.ModelDataStore;
 import me.pointofreview.persistence.MongoModelDataStore;
 import me.pointofreview.persistence.MongoUserDataStore;
@@ -8,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestContextManager;
 
 
@@ -19,6 +21,7 @@ public class SimpleTest {
 
     private ModelDataStore dataStore;
     private UserDataStore userDataStore;
+    private MongoTemplate mongoTemplate;
 
     @Before
     public void initializeTestEnvironment() throws Exception {
@@ -28,10 +31,11 @@ public class SimpleTest {
 
         dataStore = context.getBean(MongoModelDataStore.class);
         userDataStore = context.getBean(MongoUserDataStore.class);
+        mongoTemplate = context.getBean(MongoTemplate.class);
     }
 
     @Test
-    public void test() {
-        assert dataStore.getCodeSnippetsByUserId("NO_SUCH_USER_EXISTS").isEmpty();
+    public void generalTest() {
+        CodeSnippetGenerator.generateToDB(10, mongoTemplate);
     }
 }

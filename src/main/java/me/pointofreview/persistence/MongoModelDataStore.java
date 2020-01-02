@@ -39,7 +39,7 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean createComment(Comment comment) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(comment.getCodeSnippetId())), CodeSnippet.class);
+        var snippet = mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(comment.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
 
@@ -53,7 +53,7 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean addCodeReview(CodeReview review) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(review.getCodeSnippetId())), CodeSnippet.class);
+        var snippet = mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(review.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
         snippet.addReview(review);
@@ -69,14 +69,14 @@ public class MongoModelDataStore implements ModelDataStore {
     }
 
     @Override
-    public CodeReview getCodeReview(String snippetId,String codeReviewId) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
+    public CodeReview getCodeReview(String snippetId, String codeReviewId) {
+        var snippet = mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
         return snippet != null ? snippet.getReview(codeReviewId) : null;
     }
 
     @Override
     public CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId) {
-        var codeReview = getCodeReview(snippetId,codeReviewId);
+        var codeReview = getCodeReview(snippetId, codeReviewId);
         return codeReview != null ? codeReview.getCodeReviewSection(sectionId) : null;
     }
 
@@ -96,16 +96,14 @@ public class MongoModelDataStore implements ModelDataStore {
     @Override
     public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
 
-        if (codeSnippet==null)
+        if (codeSnippet == null)
             return false;
 
-        codeSnippet.updateImpressions(userId,impression);
+        codeSnippet.updateImpressions(userId, impression);
 
         mongoTemplate.save(codeSnippet);
 
         return true;
     }
-
-}
 
 }

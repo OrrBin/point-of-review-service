@@ -7,11 +7,8 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestContextManager;
 
-import javax.validation.constraints.Max;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,8 +41,8 @@ public class TestMongoUserData {
     @Test
     public void generateSnippet() {
         List<CodeReviewSection> sections = new ArrayList<>();
-        CodeReviewSection section1 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1",null,"content1",null,null,new Score());
-        CodeReviewSection section2 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1",null,"content2",null,null,new Score());
+        CodeReviewSection section1 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1","content1",null,null,new Score());
+        CodeReviewSection section2 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1","content2", null, null,new Score());
         sections.add(section1);
         sections.add(section2);
         CodeReview codeReview = new CodeReview(UUID.randomUUID().toString(),1,"userId","snippetId",1,"desc",sections,null,null);

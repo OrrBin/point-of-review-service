@@ -119,6 +119,11 @@ public class InMemoryDataStore implements ModelDataStore {
     }
 
     @Override
+    public List<CodeSnippet> getAllCodeSnippets() {
+        return null;
+    }
+
+    @Override
     public CodeReview getCodeReview(String snippetId, String codeReviewId) {
         var snippet = codeSnippets.get(snippetId);
         if(snippet == null)

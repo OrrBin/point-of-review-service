@@ -51,4 +51,9 @@ public class InMemoryUserDataStore implements UserDataStore {
         users.put(user.getId(), user);
         return true;
     }
+
+    @Override
+    public void resetDatabase() {
+
+    }
 }

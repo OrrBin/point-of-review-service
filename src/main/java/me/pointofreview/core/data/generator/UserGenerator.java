@@ -2,7 +2,6 @@ package me.pointofreview.core.data.generator;
 
 import me.pointofreview.core.objects.Reputation;
 import me.pointofreview.core.objects.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
@@ -12,40 +11,39 @@ import java.util.UUID;
 
 public class UserGenerator {
 
-    @Autowired
-    private static MongoTemplate mongoTemplate;
-
     private static Random rand = new Random();
 
     /**
-     * Adds generated users to mongo DB default port.
+     * Adds generated users to mongo DB.
+     *
      * @param amount how many users to generate
+     * @param mongoTemplate database object
      */
-    public static void generateUsersToDB(int amount, MongoTemplate mongoTemplate) {
+    public static void generateToDB(int amount, MongoTemplate mongoTemplate) {
         for (int i = 0; i < amount; i++)
-            mongoTemplate.insert(generateUser());
+            mongoTemplate.insert(generate());
     }
 
     /**
      * @param amount how many users to generate
      * @return list of users
      */
-    public static List<User> generateUsers(int amount){
+    public static List<User> generateMany(int amount) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < amount; i++)
-            users.add(generateUser());
+            users.add(generate());
         return users;
     }
 
     /**
      * @return a generated user.
      */
-    public static User generateUser(){
+    public static User generate() {
         return new User(generateName(), generatePassword(), UUID.randomUUID().toString(), new Reputation());
     }
 
-    private static String generateName(){
-        String[] names = new String[] {
+    private static String generateName() {
+        String[] names = new String[]{
                 "Noah",
                 "Liam",
                 "Mason",
@@ -2047,26 +2045,23 @@ public class UserGenerator {
                 "Sidney",
                 "Alianna"
         };
-        int n = rand.nextInt() % names.length;
-        if (n < 0) n += names.length;
-        return names[n];
+
+        return names[rand.nextInt(names.length)];
     }
 
     private static String generatePassword() {
-        String[] passwords = new String[] {
-            "blabla",
-            "scrum",
-            "hat",
-            "potato",
-            "123456",
-            "Yosi",
-            "serial_killer",
-            "0987663",
-            "a28br4"
+        String[] passwords = new String[]{
+                "blabla",
+                "scrum",
+                "hat",
+                "potato",
+                "123456",
+                "Yosi",
+                "serial_killer",
+                "0987663",
+                "a28br4"
         };
 
-        int n = rand.nextInt() % passwords.length;
-        if (n < 0) n += passwords.length;
-        return passwords[n];
+        return passwords[rand.nextInt(passwords.length)];
     }
 }

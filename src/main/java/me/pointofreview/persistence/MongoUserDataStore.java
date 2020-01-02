@@ -44,4 +44,9 @@ public class MongoUserDataStore implements UserDataStore {
     public boolean updateUser(User user) {
         return false; // TODO: do we need this?
     }
+
+    @Override
+    public void resetDatabase() {
+        mongoTemplate.dropCollection(User.class);
+    }
 }
