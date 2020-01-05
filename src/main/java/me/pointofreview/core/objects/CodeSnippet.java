@@ -17,7 +17,7 @@ import java.util.List;
 @FieldDefaults(level=AccessLevel.PRIVATE)
 public class CodeSnippet {
     @Id
-    String snippetId;
+    String id;
     long timestamp;
     String userId;
     String title;

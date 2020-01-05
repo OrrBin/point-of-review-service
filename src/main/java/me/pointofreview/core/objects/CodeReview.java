@@ -20,10 +20,9 @@ public class CodeReview {
     long timestamp;
     String userId;
     String codeSnippetId;
-    float score;
+    Score score;
     String description;
     List<CodeReviewSection> sections;
-    List<Tag> tags;
     List<Comment> comments;
 
     public void addComment(Comment comment) {

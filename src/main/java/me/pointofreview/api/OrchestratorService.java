@@ -61,7 +61,7 @@ public class OrchestratorService {
 
     @PostMapping("/snippets")
     public ResponseEntity<CodeSnippet> createCodeSnippet(@RequestBody CodeSnippet snippet) {
-        snippet.setSnippetId(UUID.randomUUID().toString());
+        snippet.setId(UUID.randomUUID().toString());
         var result = dataStore.createCodeSnippet(snippet);
         if(!result)
             return new ResponseEntity<>(HttpStatus.CONFLICT);

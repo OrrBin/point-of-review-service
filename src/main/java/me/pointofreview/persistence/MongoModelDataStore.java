@@ -23,7 +23,7 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public CodeSnippet getCodeSnippet(String snippetId) {
-        return mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
+        return mongoTemplate.findOne(Query.query(Criteria.where("id").is(snippetId)), CodeSnippet.class);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean createComment(Comment comment) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(comment.getCodeSnippetId())), CodeSnippet.class);
+        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("id").is(comment.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
 
@@ -53,7 +53,7 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean addCodeReview(CodeReview review) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(review.getCodeSnippetId())), CodeSnippet.class);
+        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("id").is(review.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
         snippet.addReview(review);
@@ -65,7 +65,7 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public CodeReview getCodeReview(String snippetId,String codeReviewId) {
-        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("snippetId").is(snippetId)), CodeSnippet.class);
+        var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("id").is(snippetId)), CodeSnippet.class);
         return snippet != null ? snippet.getReview(codeReviewId) : null;
     }
 
