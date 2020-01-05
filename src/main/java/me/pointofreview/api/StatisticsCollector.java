@@ -36,7 +36,7 @@ public class StatisticsCollector {
      * @HttpStatus BAD_REQUEST - no tags are matching the query (empty distribution)
      */
     @GetMapping("/statistics")
-    public ResponseEntity<Statistics> login(@RequestParam String statType, @RequestParam(required = false) Integer limit) {
+    public ResponseEntity<List<Statistics.Stat>> login(@RequestParam String statType, @RequestParam(required = false) Integer limit) {
         List<CodeSnippet> snippets = modelDataStore.getAllCodeSnippets();
         Map<String, Integer> tagCounts = new HashMap<>();
         int total = 0;
@@ -65,7 +65,7 @@ public class StatisticsCollector {
             reduceStatList(statistics, limit);
         }
 
-        return new ResponseEntity<>(statistics, HttpStatus.OK);
+        return new ResponseEntity<>(statistics.getStatList(), HttpStatus.OK);
     }
 
     private void reduceStatList(Statistics statistics, int limit) {
