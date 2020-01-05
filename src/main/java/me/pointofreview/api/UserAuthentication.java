@@ -54,8 +54,8 @@ public class UserAuthentication {
         if (userDataStore.existsUsername(request.username))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-        if (!isLegalFormat(request.username, request.password))
-            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+//        if (!isLegalFormat(request.username, request.password))
+//            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
 
         // Create user
         var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation());
