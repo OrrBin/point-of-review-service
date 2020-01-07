@@ -42,6 +42,11 @@ public class Score implements Comparable<Score> {
             impressions.put(impression,
                     impressions.get(impression) != null ? impressions.get(impression) + 1 :  1);
         }
+        else if (currentImperssion == impression){
+            voterToImpression.remove(userId);
+            impressions.put(currentImperssion, impressions.get(currentImperssion)- 1);
+        }
+
     }
 
 }
