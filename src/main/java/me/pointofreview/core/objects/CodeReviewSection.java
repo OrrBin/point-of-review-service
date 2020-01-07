@@ -20,6 +20,7 @@ public class CodeReviewSection {
     String userId;
     String codeSnippetId;
     String codeReviewId;
+    Code code;
     String content;
     List<Tag> tags;
     List<Comment> comments;
