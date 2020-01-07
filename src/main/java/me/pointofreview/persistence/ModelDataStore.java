@@ -32,6 +32,20 @@ public interface ModelDataStore {
     List<CodeSnippet> getCodeSnippetsByUserId(String userId);
 
     /**
+     * Get list of code snippets which contains a certain tag.
+     * @param tagName name of the tag
+     * @return list of code snippets, may be empty
+     */
+    List<CodeSnippet> getCodeSnippetByTag(String tagName);
+
+    /**
+     * Get list of code snippets which contains at least one tag.
+     * @param tagNames list of relevant tags names
+     * @return list of code snippets, may be empty
+     */
+    List<CodeSnippet> getCodeSnippetByTags(List<String> tagNames);
+
+    /**
      * Creates a new code snippet
      *
      * @param snippet the code snippet

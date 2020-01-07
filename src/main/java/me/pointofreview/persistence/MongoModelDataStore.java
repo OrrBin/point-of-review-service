@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -29,6 +30,43 @@ public class MongoModelDataStore implements ModelDataStore {
     @Override
     public List<CodeSnippet> getCodeSnippetsByUserId(String userId) {
         return mongoTemplate.find(Query.query(Criteria.where("userId").is(userId)), CodeSnippet.class);
+    }
+
+    @Override
+    public List<CodeSnippet> getCodeSnippetByTag(String tagName) {
+        List<CodeSnippet> snippets = getAllCodeSnippets();
+        List<CodeSnippet> out = new ArrayList<>();
+
+        for (CodeSnippet snippet : snippets) {
+            for (Tag tag : snippet.getTags()) {
+                if (tag.getName().equals(tagName)) {
+                    out.add(snippet);
+                    break;
+                }
+            }
+        }
+
+        if (out.isEmpty())
+            return null;
+
+        return out;
+    }
+
+    @Override
+    public List<CodeSnippet> getCodeSnippetByTags(List<String> tagNames) {
+        List<CodeSnippet> snippets = getAllCodeSnippets();
+        List<CodeSnippet> out = new ArrayList<>();
+
+        for (CodeSnippet snippet : snippets) {
+            for (Tag tag : snippet.getTags()) {
+                if (tagNames.contains(tag.getName())) {
+                    out.add(snippet);
+                    break;
+                }
+            }
+        }
+
+        return out;
     }
 
     @Override

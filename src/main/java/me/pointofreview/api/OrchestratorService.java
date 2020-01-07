@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,6 +43,24 @@ public class OrchestratorService {
     public ResponseEntity<List<CodeSnippet>> getSnippetsByUserId(@PathVariable(name = "userId") String userId) {
         var result = dataStore.getCodeSnippetsByUserId(userId);
         if(result == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/snippets/tag")
+    public ResponseEntity<List<CodeSnippet>> getSnippetsByTag(@RequestBody String tagName) {
+        var result = dataStore.getCodeSnippetByTag(tagName);
+        if (result == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/snippets/tags")
+    public ResponseEntity<List<CodeSnippet>> getSnippetsByTags(@RequestBody List<String> tagNames) {
+        var result = dataStore.getCodeSnippetByTags(tagNames);
+        if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result, HttpStatus.OK);

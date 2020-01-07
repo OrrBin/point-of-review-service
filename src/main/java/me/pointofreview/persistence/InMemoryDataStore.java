@@ -85,6 +85,16 @@ public class InMemoryDataStore implements ModelDataStore {
     }
 
     @Override
+    public List<CodeSnippet> getCodeSnippetByTag(String tagName) {
+        return null;
+    }
+
+    @Override
+    public List<CodeSnippet> getCodeSnippetByTags(List<String> tagNames) {
+        return null;
+    }
+
+    @Override
     public boolean createCodeSnippet(CodeSnippet snippet) {
         if(codeSnippets.containsKey(snippet.getSnippetId()))
             return false;
