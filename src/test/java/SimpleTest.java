@@ -1,6 +1,5 @@
 import lombok.Getter;
 import me.pointofreview.Application;
-import me.pointofreview.core.data.generator.CodeSnippetGenerator;
 import me.pointofreview.persistence.ModelDataStore;
 import me.pointofreview.persistence.MongoModelDataStore;
 import me.pointofreview.persistence.MongoUserDataStore;
@@ -11,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestContextManager;
+
+import java.util.Date;
 
 
 @SpringBootTest(classes = Application.class)
@@ -36,6 +37,11 @@ public class SimpleTest {
 
     @Test
     public void generalTest() {
-        CodeSnippetGenerator.generateToDB(10, mongoTemplate);
+        System.out.println(System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(date);
+        Date date2 = new Date(System.currentTimeMillis() + 1000 * 60 * 10);
+        System.out.println(date2);
+
     }
 }

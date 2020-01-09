@@ -13,4 +13,5 @@ public class User {
     String password;
     String id;
     Reputation reputation;
+    ReportStatus report;
 }

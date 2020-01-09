@@ -41,8 +41,18 @@ public class MongoUserDataStore implements UserDataStore {
     }
 
     @Override
+    public boolean addReport(User user, String reportType) {
+        var reported = user.getReport().addReport(reportType);
+        if (!reported)
+            return false;
+        mongoTemplate.save(user);
+        return true;
+    }
+
+    @Override
     public boolean updateUser(User user) {
-        return false; // TODO: do we need this?
+        mongoTemplate.save(user);
+        return true;
     }
 
     @Override

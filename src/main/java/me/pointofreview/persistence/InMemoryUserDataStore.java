@@ -44,6 +44,11 @@ public class InMemoryUserDataStore implements UserDataStore {
     }
 
     @Override
+    public boolean addReport(User user, String reportType) {
+        return false;
+    }
+
+    @Override
     public boolean updateUser(User user) {
         if (!users.containsKey(user.getId()))
             return false;

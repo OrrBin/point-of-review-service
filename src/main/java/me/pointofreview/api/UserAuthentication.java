@@ -1,6 +1,7 @@
 package me.pointofreview.api;
 
 import me.pointofreview.core.objects.AuthenticationRequest;
+import me.pointofreview.core.objects.ReportStatus;
 import me.pointofreview.core.objects.Reputation;
 import me.pointofreview.core.objects.User;
 import me.pointofreview.persistence.UserDataStore;
@@ -8,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -28,6 +27,7 @@ public class UserAuthentication {
      * @param request contains username and password
      * @return {@link User} if username and password match, null otherwise
      * @HttpStatus UNAUTHORIZED - username and password don't match
+     * @HttpStatus UNAVAILABLE_FOR_LEGAL_REASONS - user is banned
      */
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody AuthenticationRequest request) {
@@ -35,6 +35,10 @@ public class UserAuthentication {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         var user = userDataStore.getUserByUsername(request.username);
+
+        if (user.getReport().isBanned())
+            return new ResponseEntity<>(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS);
+
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -58,11 +62,33 @@ public class UserAuthentication {
             return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
 
         // Create user
-        var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation());
+        var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation(), new ReportStatus());
         var created = userDataStore.createUser(user);
 
         if (!created)
             return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE); // user id already exists
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * Reports a user.
+     * @param username username of user to report, should be a user in the system
+     * @param reportType should be spam, badLanguage or misleading
+     * @return {@link User} of the userId if succeed
+     * @HttpStatus NOT_FOUND - user doesn't exist in the system
+     * @HttpStatus METHOD_NOT_ALLOWED - the report type is invalid
+     */
+    @GetMapping("/report")
+    public ResponseEntity<User> reportUser(@RequestParam String username, @RequestParam String reportType) {
+        User user = userDataStore.getUserByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        var reported = userDataStore.addReport(user, reportType);
+        if (!reported)
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

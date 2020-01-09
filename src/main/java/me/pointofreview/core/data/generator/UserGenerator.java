@@ -1,5 +1,6 @@
 package me.pointofreview.core.data.generator;
 
+import me.pointofreview.core.objects.ReportStatus;
 import me.pointofreview.core.objects.Reputation;
 import me.pointofreview.core.objects.User;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,7 +40,7 @@ public class UserGenerator {
      * @return a generated user.
      */
     public static User generate() {
-        return new User(generateName(), generatePassword(), UUID.randomUUID().toString(), new Reputation());
+        return new User(generateName(), generatePassword(), UUID.randomUUID().toString(), new Reputation(), new ReportStatus());
     }
 
     private static String generateName() {

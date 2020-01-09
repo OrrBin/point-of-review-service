@@ -3,6 +3,7 @@ package me.pointofreview.api;
 import me.pointofreview.Application;
 import me.pointofreview.core.data.generator.UserGenerator;
 import me.pointofreview.core.objects.AuthenticationRequest;
+import me.pointofreview.core.objects.ReportStatus;
 import me.pointofreview.core.objects.Reputation;
 import me.pointofreview.core.objects.User;
 import org.junit.*;
@@ -53,7 +54,7 @@ public class TestUserAuthentication {
 
     @Test
     public void loginAttemptShouldSucceed() {
-        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation()));
+        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation(), new ReportStatus()));
 
         String username = "ScrumMaster", password = "123456";
 
@@ -67,7 +68,7 @@ public class TestUserAuthentication {
 
     @Test
     public void registerShouldFailWithConflict() {
-        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation()));
+        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation(), new ReportStatus()));
 
         String username = "ScrumMaster", password = "Or_Binyamini";
 

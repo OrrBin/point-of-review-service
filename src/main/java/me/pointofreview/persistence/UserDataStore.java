@@ -44,6 +44,15 @@ public interface UserDataStore {
     boolean createUser(User user);
 
     /**
+     * Increase counter
+     *
+     * @param user the reported user
+     * @param reportType type of report - must be spam, badLanguage or misleading
+     * @return true if successful
+     */
+    boolean addReport(User user, String reportType);
+
+    /**
      * Updates existing user, only if user with the same id as the given
      * user already exists
      * @param user user to update

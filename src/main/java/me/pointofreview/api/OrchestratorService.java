@@ -1,7 +1,6 @@
 package me.pointofreview.api;
 
 import lombok.extern.slf4j.Slf4j;
-import me.pointofreview.core.data.filter.CodeSnippetsFilter;
 import me.pointofreview.core.data.generator.TagGenerator;
 import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,13 +25,17 @@ public class OrchestratorService {
     }
 
     @GetMapping("/snippets/recent")
-    public List<CodeSnippet> recentSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
-        return dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.RECENT, maximumNumber));
+    public ResponseEntity<List<CodeSnippet>> recentSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
+        var result = dataStore.getAllCodeSnippets();
+        if(result == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        CodeSnippet.sortByTimestamps(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/snippets/popular")
     public ResponseEntity<List<CodeSnippet>> popularSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
-        var result = dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.POPULARITY, maximumNumber));
+        var result = dataStore.getAllCodeSnippets();
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         CodeSnippet.sortByTimestamps(result);
@@ -130,5 +132,4 @@ public class OrchestratorService {
     public ResponseEntity<List<Tag>> getAllCodeSnippetTags(){
         return new ResponseEntity<>(TagGenerator.getTagList(), HttpStatus.OK);
     }
-
 }
