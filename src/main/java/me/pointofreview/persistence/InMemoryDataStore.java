@@ -134,16 +134,14 @@ public class InMemoryDataStore implements ModelDataStore {
     }
 
     @Override
-    public CodeReview getCodeReview(String snippetId, String codeReviewId) {
-        var snippet = codeSnippets.get(snippetId);
+    public CodeReview getCodeReview(CodeSnippet snippet, String codeReviewId) {
         if(snippet == null)
             return null;
         return snippet.getReview(codeReviewId);
     }
 
     @Override
-    public CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId) {
-        var snippet = codeSnippets.get(snippetId);
+    public CodeReviewSection getCodeReviewSection(CodeSnippet snippet, String codeReviewId, String sectionId) {
         if(snippet == null)
             return null;
         var codeReview =  snippet.getReview(codeReviewId);
@@ -153,13 +151,10 @@ public class InMemoryDataStore implements ModelDataStore {
 
     }
 
-//    @Override
-//    public boolean updateCodeReviewSectionImpressions(CodeReviewSection codeReviewSection, String userId, Impression impression) {
-//        if (codeReviewSection == null)
-//            return false;
-//        codeReviewSection.updateImpressions(userId,impression);
-//        return true;
-//    }
+    @Override
+    public Score updateCodeReviewSectionImpressions(CodeSnippet snippet, String codeReviewId, String codeReviewSectionId, String userId, Impression impression) {
+        return null;
+    }
 
     @Override
     public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
