@@ -1,5 +1,6 @@
 package me.pointofreview.persistence;
 
+import jdk.jshell.Snippet;
 import me.pointofreview.core.data.filter.CodeSnippetsFilter;
 import me.pointofreview.core.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,9 @@ public class MongoModelDataStore implements ModelDataStore {
         var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("id").is(review.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
+        for ( CodeReviewSection section : review.getSections()){
+            section.setCodeReviewId(review.getId());
+        }
         snippet.addReview(review);
 
         mongoTemplate.save(snippet);
@@ -107,33 +111,20 @@ public class MongoModelDataStore implements ModelDataStore {
     }
 
     @Override
-    public CodeReview getCodeReview(String snippetId, String codeReviewId) {
-        var snippet = mongoTemplate.findOne(Query.query(Criteria.where("id").is(snippetId)), CodeSnippet.class);
-        return snippet != null ? snippet.getReview(codeReviewId) : null;
-    }
+    public Score updateCodeReviewSectionImpressions(String snippetId,String codeReviewId, String codeReviewSectionId, String userId, Impression impression){
+        CodeSnippet snippet = getCodeSnippet(snippetId);
+        if (snippet == null)
+            return null;
+        CodeReviewSection section = snippet.getCodeReviewSection(codeReviewId,codeReviewSectionId);
 
-    @Override
-    public CodeReviewSection getCodeReviewSection(String snippetId, String codeReviewId, String sectionId) {
-        var codeReview = getCodeReview(snippetId, codeReviewId);
-        return codeReview != null ? codeReview.getCodeReviewSection(sectionId) : null;
-    }
+        section.updateImpressions(userId,impression);
+        mongoTemplate.save(snippet);
 
-//    @Override
-//    public boolean updateCodeReviewSectionImpressions(CodeReviewSection codeReviewSection, String userId, Impression impression) {
-//
-//        if (codeReviewSection==null)
-//            return false;
-//
-//        codeReviewSection.updateImpressions(userId,impression);
-//
-//        mongoTemplate.save(codeReviewSection);
-//
-//        return true;
-//    }
+        return section.getScore();
+    }
 
     @Override
     public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
-
         if (codeSnippet == null)
             return false;
 

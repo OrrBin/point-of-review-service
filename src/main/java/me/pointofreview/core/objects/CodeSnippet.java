@@ -50,6 +50,12 @@ public class CodeSnippet {
         return score.impressionCounter(impression);
     }
 
+    public CodeReviewSection getCodeReviewSection(String codeReviewId, String sectionId) {
+        var codeReview = getReview(codeReviewId);
+        return codeReview != null ? codeReview.getCodeReviewSection(sectionId) : null;
+    }
+}
+
     public static void sortByTimestamps(List<CodeSnippet> snippets) {
         Collections.sort(snippets, Collections.reverseOrder(Comparator.comparing(snippet -> ((Long) snippet.getTimestamp()))));
 

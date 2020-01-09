@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ImpressionRequest {
-    public CodeSnippet snippet;
+    public String snippetId;
+    public String codeReviewId;
+    public String codeReviewSectionId;
     public String voterId;
     public Impression impression;
 }
