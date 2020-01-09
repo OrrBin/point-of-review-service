@@ -54,8 +54,8 @@ public class UserAuthentication {
         if (userDataStore.existsUsername(request.username))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-//        if (!isLegalFormat(request.username, request.password))
-//            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+        if (!isLegalFormat(request.username, request.password))
+            return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
 
         // Create user
         var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation());
@@ -77,8 +77,8 @@ public class UserAuthentication {
         if (!(password.length() >= 3 && password.length() <= 12))
             return false;
 
-        if (!(c >= 'a' && c <= 'z')) // username doesn't start with a letter
-            return false;
+//        if (!(c >= 'a' && c <= 'z')) // username doesn't start with a letter
+//            return false;
 
         for (int i = 1; i < username.length(); i++) {
             c = username.toLowerCase().charAt(i);

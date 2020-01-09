@@ -32,8 +32,8 @@ public class StatisticsCollector {
      * @param statType the type of tags which the statistic collected on
      * @param limit the maximum number of objects in the distribution - optional parameter, if not provided, there is no upper bound
      * @example statType = "language", limit = 3 => returns the 3 most popular languages
-     * @return a {@link Statistics} object that holds the distribution
-     * @HttpStatus BAD_REQUEST - no tags are matching the query (empty distribution)
+     * @return a {@link Statistics} object that holds the distribution, may be empty
+     * @HttpStatus FORBIDDEN - no tags are matching the query (empty distribution)
      */
     @GetMapping("/statistics")
     public ResponseEntity<List<Statistics.Stat>> login(@RequestParam String statType, @RequestParam(required = false) Integer limit) {
@@ -52,10 +52,12 @@ public class StatisticsCollector {
             }
         }
 
-        if (total == 0) // no tags match the statType
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         Statistics statistics = new Statistics(statType, total);
+
+        if (total == 0) // no tags match the statType
+            return new ResponseEntity<>(statistics.getStatList(), HttpStatus.OK);
+
+
 
         for (Map.Entry<String, Integer> entry : tagCounts.entrySet()) {
             statistics.add(entry.getKey(), entry.getValue());

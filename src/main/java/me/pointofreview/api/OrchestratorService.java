@@ -36,7 +36,7 @@ public class OrchestratorService {
         var result = dataStore.getCodeSnippets(new CodeSnippetsFilter(new ArrayList<>(), CodeSnippetsFilter.SortBy.POPULARITY, maximumNumber));
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+        CodeSnippet.sortByTimestamps(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -46,6 +46,7 @@ public class OrchestratorService {
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+        CodeSnippet.sortByTimestamps(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -64,6 +65,7 @@ public class OrchestratorService {
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+        CodeSnippet.sortByTimestamps(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

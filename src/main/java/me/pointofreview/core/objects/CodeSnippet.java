@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -46,5 +48,10 @@ public class CodeSnippet {
 
     public int impressionCounter(Impression impression){
         return score.impressionCounter(impression);
+    }
+
+    public static void sortByTimestamps(List<CodeSnippet> snippets) {
+        Collections.sort(snippets, Collections.reverseOrder(Comparator.comparing(snippet -> ((Long) snippet.getTimestamp()))));
+
     }
 }
