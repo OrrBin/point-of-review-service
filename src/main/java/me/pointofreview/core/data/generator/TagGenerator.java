@@ -2,14 +2,31 @@ package me.pointofreview.core.data.generator;
 
 import me.pointofreview.core.objects.Tag;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class TagGenerator {
 
     private static Random rand = new Random();
 
+    public static List<Tag> getTagList(){
+        Tag[] tags = new Tag[]{
+//                new Tag("python", "language"),
+//                new Tag("java", "language"),
+//                new Tag("C#", "language"),
+//                new Tag("javascript", "language"),
+                new Tag("sorting", "algorithm"),
+                new Tag("GCD", "algorithm"),
+                new Tag("binary search", "algorithm"),
+                new Tag("BFS", "algorithm"),
+                new Tag("Dijkstra", "algorithm"),
+                new Tag("memory", "feedback"),
+                new Tag("complexity", "feedback"),
+                new Tag("design", "feedback"),
+                new Tag("modularity", "feedback"),
+        };
+
+        return Arrays.asList(tags);
+    }
     /**
      * Generates a list of tags.
      * @param amount how many tags to generate
@@ -25,23 +42,8 @@ public class TagGenerator {
      * Generates a random tag.
      */
     public static Tag generate() {
-        Tag[] tags = new Tag[]{
-                new Tag("python", "language"),
-                new Tag("java", "language"),
-                new Tag("C#", "language"),
-                new Tag("javascript", "language"),
-                new Tag("sorting", "algorithm"),
-                new Tag("GCD", "algorithm"),
-                new Tag("binary search", "algorithm"),
-                new Tag("BFS", "algorithm"),
-                new Tag("Dijkstra", "algorithm"),
-                new Tag("memory", "feedback"),
-                new Tag("complexity", "feedback"),
-                new Tag("design", "feedback"),
-                new Tag("modularity", "feedback"),
-        };
-
-        return tags[rand.nextInt(tags.length)];
+        List<Tag> tags = getTagList();
+        return tags.get(rand.nextInt(tags.size()));
     }
 
     /**
