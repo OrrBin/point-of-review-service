@@ -92,11 +92,13 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean addCodeReview(CodeReview review) {
+        int i = 1;
         var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("id").is(review.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
         for ( CodeReviewSection section : review.getSections()){
             section.setCodeReviewId(review.getId());
+            section.setId(Integer.toString(i++));
         }
         snippet.addReview(review);
 
