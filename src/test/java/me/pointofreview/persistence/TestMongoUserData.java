@@ -41,11 +41,11 @@ public class TestMongoUserData {
     @Test
     public void generateSnippet() {
         List<CodeReviewSection> sections = new ArrayList<>();
-        CodeReviewSection section1 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1","content1",null,null,new Score());
-        CodeReviewSection section2 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1","content2", null, null,new Score());
+        CodeReviewSection section1 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1",new Code(),"content1",null,null,new Score());
+        CodeReviewSection section2 = new CodeReviewSection(UUID.randomUUID().toString(),"1","1","1",new Code(),"content2", null, null,new Score());
         sections.add(section1);
         sections.add(section2);
-        CodeReview codeReview = new CodeReview(UUID.randomUUID().toString(),1,"userId","snippetId",1,"desc",sections,null,null);
+        CodeReview codeReview = new CodeReview(UUID.randomUUID().toString(),1,"userId","snippetId",new Score(),"desc",sections,null);
         List<CodeReview> codeReviews = new ArrayList<>();
         codeReviews.add(codeReview);
         CodeSnippet snippet = new CodeSnippet("oz",1,"a","Question",

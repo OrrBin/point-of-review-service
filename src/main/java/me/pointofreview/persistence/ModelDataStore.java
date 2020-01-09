@@ -76,42 +76,21 @@ public interface ModelDataStore {
 
 
     /**
-     * get a code review, if exists
-     *
-     * @param codeReviewId is the Id of the desired code review
-     * @param snippet    is the code-snippet which contains the code review
-     * @return the code review if the code review was found, and null otherwise
-     */
-    CodeReview getCodeReview(CodeSnippet snippet, String codeReviewId);
-
-
-    /**
-     * get a code review section, if exists
-     *
-     * @param sectionId    is the Id of the desired code review section
-     * @param codeReviewId is the Id of the code review which contains the section
-     * @param snippet    is the code-snippet which contains the code review with the Id codeReviewId
-     * @return the code review section if the code review section was found, and null otherwise
-     */
-    CodeReviewSection getCodeReviewSection(CodeSnippet snippet, String codeReviewId, String sectionId);
-
-    /**
      * update code-review section's impressions, if user already voted with the same impression - nothing is changed
      * @param codeReviewSectionId is the relevant section id
      * @param userId is the Id of the voting user
      * @param impression is the voting user impression (currently: like/dislike/report)
      * @return true if the section exists, and false otherwise
      */
-    Score updateCodeReviewSectionImpressions(CodeSnippet snippet,String codeReviewId, String codeReviewSectionId, String userId, Impression impression);
+    Score updateCodeReviewSectionImpressions(String snippetId,String codeReviewId, String codeReviewSectionId, String userId, Impression impression);
 
     /**
      * update code-snippet's impressions, if user already voted with the same impression - nothing is changed
-     *
-     * @param codeSnippet is the relevant snippet
-     * @param userId      is the Id of the voting user
-     * @param impression  is the voting user impression (currently: like/dislike/report)
+     * @param snippet is the relevant snippet
+     * @param userId is the Id of the voting user
+     * @param impression is the voting user impression (currently: like/dislike/report)
      * @return true if the snippet exists, and false otherwise
      */
-    boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression);
-}
+    boolean updateCodeSnippetImpressions(CodeSnippet snippet, String userId, Impression impression);
 
+    }

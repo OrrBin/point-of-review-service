@@ -47,4 +47,9 @@ public class CodeSnippet {
     public int impressionCounter(Impression impression){
         return score.impressionCounter(impression);
     }
+
+    public CodeReviewSection getCodeReviewSection(String codeReviewId, String sectionId) {
+        var codeReview = getReview(codeReviewId);
+        return codeReview != null ? codeReview.getCodeReviewSection(sectionId) : null;
+    }
 }

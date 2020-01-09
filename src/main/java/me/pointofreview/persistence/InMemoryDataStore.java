@@ -133,34 +133,17 @@ public class InMemoryDataStore implements ModelDataStore {
         return null;
     }
 
-    @Override
-    public CodeReview getCodeReview(CodeSnippet snippet, String codeReviewId) {
-        if(snippet == null)
-            return null;
-        return snippet.getReview(codeReviewId);
-    }
 
     @Override
-    public CodeReviewSection getCodeReviewSection(CodeSnippet snippet, String codeReviewId, String sectionId) {
-        if(snippet == null)
-            return null;
-        var codeReview =  snippet.getReview(codeReviewId);
-        if(codeReview == null)
-            return null;
-        return codeReview.getCodeReviewSection(sectionId);
-
-    }
-
-    @Override
-    public Score updateCodeReviewSectionImpressions(CodeSnippet snippet, String codeReviewId, String codeReviewSectionId, String userId, Impression impression) {
+    public Score updateCodeReviewSectionImpressions(String snippetId, String codeReviewId, String codeReviewSectionId, String userId, Impression impression) {
         return null;
     }
 
     @Override
-    public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
-        if (codeSnippet == null)
+    public boolean updateCodeSnippetImpressions(CodeSnippet snippet, String userId, Impression impression) {
+        if (snippet == null)
             return false;
-        codeSnippet.updateImpressions(userId,impression);
+        snippet.updateImpressions(userId,impression);
         return true;
     }
 }

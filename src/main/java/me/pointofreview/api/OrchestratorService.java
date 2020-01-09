@@ -108,16 +108,13 @@ public class OrchestratorService {
 
     @PostMapping("/reviews/sections/impressions")
     public ResponseEntity<Score> updateSectionImpressions(@RequestBody ImpressionRequest request) {
-        var score = dataStore.updateCodeReviewSectionImpressions(request.snippet,request.codeReviewId,request.codeReviewSectionId,request.voterId,request.impression);
-        if (score != null)
-            return new ResponseEntity<>(score, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        var score = dataStore.updateCodeReviewSectionImpressions(request.snippetId,request.codeReviewId,request.codeReviewSectionId,request.voterId,request.impression);
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 
     @PostMapping("/snippets/impressions")
     public ResponseEntity<Score> updateSnippetImpressions(@RequestBody ImpressionRequest request) {
-        var snippet = request.snippet;
+        var snippet = dataStore.getCodeSnippet(request.snippetId);
         if (snippet == null){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }

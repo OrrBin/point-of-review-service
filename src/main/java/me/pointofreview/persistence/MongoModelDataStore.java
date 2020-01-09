@@ -1,5 +1,6 @@
 package me.pointofreview.persistence;
 
+import jdk.jshell.Snippet;
 import me.pointofreview.core.data.filter.CodeSnippetsFilter;
 import me.pointofreview.core.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,21 +111,12 @@ public class MongoModelDataStore implements ModelDataStore {
     }
 
     @Override
-    public CodeReview getCodeReview(CodeSnippet snippet, String codeReviewId) {
-        return snippet != null ? snippet.getReview(codeReviewId) : null;
-    }
-
-    @Override
-    public CodeReviewSection getCodeReviewSection(CodeSnippet snippet, String codeReviewId, String sectionId) {
-        var codeReview = getCodeReview(snippet, codeReviewId);
-        return codeReview != null ? codeReview.getCodeReviewSection(sectionId) : null;
-    }
-
-    @Override
-    public Score updateCodeReviewSectionImpressions(CodeSnippet snippet,String codeReviewId, String codeReviewSectionId, String userId, Impression impression){
-        CodeReviewSection section = getCodeReviewSection(snippet,codeReviewId,codeReviewSectionId);
-        if (section==null)
+    public Score updateCodeReviewSectionImpressions(String snippetId,String codeReviewId, String codeReviewSectionId, String userId, Impression impression){
+        CodeSnippet snippet = getCodeSnippet(snippetId);
+        if (snippet == null)
             return null;
+        CodeReviewSection section = snippet.getCodeReviewSection(codeReviewId,codeReviewSectionId);
+
         section.updateImpressions(userId,impression);
         mongoTemplate.save(snippet);
 
@@ -133,7 +125,6 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean updateCodeSnippetImpressions(CodeSnippet codeSnippet, String userId, Impression impression) {
-
         if (codeSnippet == null)
             return false;
 
