@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -25,27 +27,41 @@ public class OrchestratorService {
     }
 
     @GetMapping("/snippets/recent")
-    public ResponseEntity<List<CodeSnippet>> recentSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
+    public ResponseEntity<List<CodeSnippet>> recentSnippets(@RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
         var result = dataStore.getAllCodeSnippets();
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         CodeSnippet.sortByTimestamps(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
+
     }
 
     @GetMapping("/snippets/popular")
-    public ResponseEntity<List<CodeSnippet>> popularSnippets(@RequestParam(value="maximumNumber", defaultValue="10") int maximumNumber) {
+    public ResponseEntity<List<CodeSnippet>> popularSnippets(@RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
+        String user_id = "dsaidas";
         var result = dataStore.getAllCodeSnippets();
-        if(result == null)
+        if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        CodeSnippet.sortByTimestamps(result);
+
+        CodeSnippet.sortByPopularity(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/snippets/recommended/{userId}")
+    public ResponseEntity<List<CodeSnippet>> recommendedSnippets(@PathVariable(name = "userId") String userId,
+            @RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
+        var result = dataStore.getAllCodeSnippets();
+        if (result == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUserId(userId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/snippets/users/{userId}")
     public ResponseEntity<List<CodeSnippet>> getSnippetsByUserId(@PathVariable(name = "userId") String userId) {
         var result = dataStore.getCodeSnippetsByUserId(userId);
-        if(result == null)
+        if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
@@ -75,7 +91,7 @@ public class OrchestratorService {
     public ResponseEntity<CodeSnippet> getSnippet(@PathVariable(name = "id") String id) {
         var result = dataStore.getCodeSnippet(id);
 
-        if(result == null)
+        if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -85,7 +101,7 @@ public class OrchestratorService {
     public ResponseEntity<CodeSnippet> createCodeSnippet(@RequestBody CodeSnippet snippet) {
         snippet.setId(UUID.randomUUID().toString());
         var result = dataStore.createCodeSnippet(snippet);
-        if(!result)
+        if (!result)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
         return new ResponseEntity<>(snippet, HttpStatus.OK);
@@ -95,7 +111,7 @@ public class OrchestratorService {
     public ResponseEntity<CodeReview> createCodeReview(@RequestBody CodeReview review) {
         review.setId(UUID.randomUUID().toString());
         var result = dataStore.addCodeReview(review);
-        if(!result)
+        if (!result)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(review, HttpStatus.OK);
@@ -105,7 +121,7 @@ public class OrchestratorService {
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
         comment.setId(UUID.randomUUID().toString());
         var result = dataStore.createComment(comment);
-        if(!result)
+        if (!result)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(comment, HttpStatus.OK);
@@ -113,23 +129,23 @@ public class OrchestratorService {
 
     @PostMapping("/reviews/sections/impressions")
     public ResponseEntity<Score> updateSectionImpressions(@RequestBody ImpressionRequest request) {
-        var score = dataStore.updateCodeReviewSectionImpressions(request.snippetId,request.codeReviewId,request.codeReviewSectionId,request.voterId,request.impression);
+        var score = dataStore.updateCodeReviewSectionImpressions(request.snippetId, request.codeReviewId, request.codeReviewSectionId, request.voterId, request.impression);
         return new ResponseEntity<>(score, HttpStatus.OK);
     }
 
     @PostMapping("/snippets/impressions")
     public ResponseEntity<Score> updateSnippetImpressions(@RequestBody ImpressionRequest request) {
         var snippet = dataStore.getCodeSnippet(request.snippetId);
-        if (snippet == null){
+        if (snippet == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        dataStore.updateCodeSnippetImpressions(snippet,request.voterId,request.impression);
+        dataStore.updateCodeSnippetImpressions(snippet, request.voterId, request.impression);
         return new ResponseEntity<>(snippet.getScore(), HttpStatus.OK);
 
     }
 
     @GetMapping("/tags")
-    public ResponseEntity<List<Tag>> getAllCodeSnippetTags(){
+    public ResponseEntity<List<Tag>> getAllCodeSnippetTags() {
         return new ResponseEntity<>(TagGenerator.getTagList(), HttpStatus.OK);
     }
 }
