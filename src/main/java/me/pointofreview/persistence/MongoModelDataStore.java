@@ -95,6 +95,7 @@ public class MongoModelDataStore implements ModelDataStore {
         for ( CodeReviewSection section : review.getSections()){
             section.setCodeReviewId(review.getId());
             section.setId(Integer.toString(i++));
+            section.setSubmitted(true);
         }
         snippet.addReview(review);
 
