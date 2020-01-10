@@ -8,12 +8,20 @@ public class TagGenerator {
 
     private static Random rand = new Random();
 
-    public static List<Tag> getTagList(){
+    public static List<Tag> getLanguageTags() {
         Tag[] tags = new Tag[]{
-//                new Tag("python", "language"),
-//                new Tag("java", "language"),
-//                new Tag("C#", "language"),
-//                new Tag("javascript", "language"),
+                new Tag("python", "language"),
+                new Tag("Java", "language"),
+                new Tag("C#", "language"),
+                new Tag("JavaScript", "language"),
+                new Tag("TypeScript", "language")
+        };
+
+        return Arrays.asList(tags);
+    }
+
+    public static List<Tag> getSnippetTags(){
+        Tag[] tags = new Tag[]{
                 new Tag("sorting", "algorithm"),
                 new Tag("GCD", "algorithm"),
                 new Tag("binary search", "algorithm"),
@@ -22,7 +30,7 @@ public class TagGenerator {
                 new Tag("memory", "feedback"),
                 new Tag("complexity", "feedback"),
                 new Tag("design", "feedback"),
-                new Tag("modularity", "feedback"),
+                new Tag("modularity", "feedback")
         };
 
         return Arrays.asList(tags);
@@ -42,7 +50,7 @@ public class TagGenerator {
      * Generates a random tag.
      */
     public static Tag generate() {
-        List<Tag> tags = getTagList();
+        List<Tag> tags = getSnippetTags();
         return tags.get(rand.nextInt(tags.size()));
     }
 

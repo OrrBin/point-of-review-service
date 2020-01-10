@@ -1,6 +1,5 @@
 package me.pointofreview.persistence;
 
-import jdk.jshell.Snippet;
 import me.pointofreview.core.data.filter.CodeSnippetsFilter;
 import me.pointofreview.core.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +45,6 @@ public class MongoModelDataStore implements ModelDataStore {
                 }
             }
         }
-
-        if (out.isEmpty())
-            return null;
 
         return out;
     }

@@ -57,6 +57,5 @@ public class CodeSnippet {
 
     public static void sortByTimestamps(List<CodeSnippet> snippets) {
         Collections.sort(snippets, Collections.reverseOrder(Comparator.comparing(snippet -> ((Long) snippet.getTimestamp()))));
-
     }
 }

@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @RestController
 @Slf4j
@@ -58,14 +60,15 @@ public class OrchestratorService {
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+        CodeSnippet.sortByTimestamps(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/snippets/tags")
     public ResponseEntity<List<CodeSnippet>> getSnippetsByTags(@RequestBody List<String> tagNames) {
         var result = dataStore.getCodeSnippetByTags(tagNames);
-        if (result == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        if (result == null)
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -128,8 +131,17 @@ public class OrchestratorService {
 
     }
 
-    @GetMapping("/tags")
-    public ResponseEntity<List<Tag>> getAllCodeSnippetTags(){
-        return new ResponseEntity<>(TagGenerator.getTagList(), HttpStatus.OK);
+    @GetMapping("/tags/snippet")
+    public ResponseEntity<List<Tag>> getCodeSnippetTags(){
+        return new ResponseEntity<>(TagGenerator.getSnippetTags(), HttpStatus.OK);
+    }
+
+    @GetMapping("/tags/feed")
+    public ResponseEntity<List<Tag>> getAllTags(){
+        List<Tag> langTags = TagGenerator.getLanguageTags();
+        List<Tag> snippetTags = TagGenerator.getSnippetTags();
+        List<Tag> all = new ArrayList<>();
+        Stream.of(langTags, snippetTags).forEach(all::addAll);
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 }
