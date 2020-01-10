@@ -25,6 +25,7 @@ public class CodeReviewSection {
     List<Tag> tags;
     List<Comment> comments;
     Score score;
+    boolean submitted;
 
     public int impressionCounter(Impression impression){
         return score.impressionCounter(impression);
