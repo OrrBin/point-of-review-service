@@ -15,7 +15,6 @@ import java.util.Map;
 @Getter
 @Setter
 public class Reputation extends Score{
-    int reputation;
     int rank;
 
     Map<String, Map<String,Impression>> voterToSourceToImpression = new HashMap<>();
@@ -52,21 +51,5 @@ public class Reputation extends Score{
         }
     }
 
-
-    void decreaseReputation(){
-        reputation--;
-    }
-
-    void decreaseReputation(int delta){
-        reputation-=delta;
-    }
-
-    void increaseReputation(){
-        reputation++;
-    }
-
-    void increaseReputation(int delta){
-        reputation+=delta;
-    }
 }
 

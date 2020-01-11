@@ -16,7 +16,7 @@ import java.util.Set;
 public class Score implements Comparable<Score> {
     private static final int LIMIT = 5;
     private static final float RATIO = (float) 0.4;
-    float score;
+
     Map<Impression,Integer> impressions = new HashMap<>();
 
     // track users that gave impressions to the section
@@ -25,7 +25,7 @@ public class Score implements Comparable<Score> {
 
     @Override
     public int compareTo(Score o) {
-        return Float.compare(this.score, o.score);
+        return Integer.compare(this.calculate(), o.calculate());
     }
 
     public int impressionCounter(Impression impression){
