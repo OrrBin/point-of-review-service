@@ -11,10 +11,11 @@ public class TagGenerator {
     public static List<Tag> getLanguageTags() {
         Tag[] tags = new Tag[]{
                 new Tag("python", "language"),
-                new Tag("Java", "language"),
-                new Tag("C#", "language"),
-                new Tag("JavaScript", "language"),
-                new Tag("TypeScript", "language")
+                new Tag("java", "language"),
+                new Tag("c#", "language"),
+                new Tag("c", "language"),
+                new Tag("javascript", "language"),
+                new Tag("typescript", "language")
         };
 
         return Arrays.asList(tags);

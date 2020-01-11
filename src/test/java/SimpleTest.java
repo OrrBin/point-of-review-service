@@ -1,7 +1,5 @@
 import lombok.Getter;
 import me.pointofreview.Application;
-import me.pointofreview.core.data.generator.TagGenerator;
-import me.pointofreview.core.objects.Tag;
 import me.pointofreview.persistence.ModelDataStore;
 import me.pointofreview.persistence.MongoModelDataStore;
 import me.pointofreview.persistence.MongoUserDataStore;
@@ -12,10 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestContextManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 
 
 @SpringBootTest(classes = Application.class)
@@ -41,10 +35,7 @@ public class SimpleTest {
 
     @Test
     public void generalTest() {
-        List<Tag> lang = TagGenerator.getLanguageTags();
-        List<Tag> all = TagGenerator.getSnippetTags();
-        List<Tag> newList = new ArrayList<>();
-        Stream.of(lang, all).forEach(newList::addAll);
-        System.out.println(lang);
+        var user = userDataStore.getUserById("3b294bc2-006d-4020-ac44-bb6ac5fd8cbc");
+        return;
     }
 }
