@@ -17,6 +17,8 @@ public class Score implements Comparable<Score> {
     private static final int LIMIT = 5;
     private static final float RATIO = (float) 0.4;
 
+    private float score; //redundant
+
     Map<Impression,Integer> impressions = new HashMap<>();
 
     // track users that gave impressions to the section
