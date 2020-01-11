@@ -2,6 +2,7 @@ package me.pointofreview.core.data.generator;
 
 import me.pointofreview.core.objects.ReportStatus;
 import me.pointofreview.core.objects.Reputation;
+import me.pointofreview.core.objects.Score;
 import me.pointofreview.core.objects.User;
 import org.springframework.data.mongodb.core.MongoTemplate;
 

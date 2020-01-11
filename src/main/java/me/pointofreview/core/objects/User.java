@@ -14,4 +14,9 @@ public class User {
     String id;
     Reputation reputation;
     ReportStatus report;
+
+    public void updateImpressions(String voterId,String sourceId,Impression impression) {
+        reputation.updateImpressions(voterId,sourceId,impression);
+    }
+
 }

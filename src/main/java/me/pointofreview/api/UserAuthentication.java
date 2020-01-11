@@ -1,14 +1,17 @@
 package me.pointofreview.api;
 
+import me.pointofreview.core.objects.*;
 import me.pointofreview.core.objects.AuthenticationRequest;
 import me.pointofreview.core.objects.ReportStatus;
 import me.pointofreview.core.objects.Reputation;
 import me.pointofreview.core.objects.User;
+import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.UserDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -119,5 +122,26 @@ public class UserAuthentication {
         }
 
         return true;
+    }
+
+    @PostMapping("/reputation")
+    public ResponseEntity<User> updateUserReputation(@RequestBody ImpressionRequest request) {
+        var user = userDataStore.getUserByUsername(request.uploaderName);
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        String sourceId = StringUtils.isEmpty(request.codeReviewSectionId)? request.snippetId : request.codeReviewSectionId ;
+        userDataStore.updateUserReputation(user,request.voterId,sourceId,request.impression);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/reputation")
+    public ResponseEntity<Integer> getReputation(@RequestParam String username) {
+        var user = userDataStore.getUserByUsername(username);
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Integer reputationScore = user.getReputation().calculate();
+        return new ResponseEntity<>(reputationScore, HttpStatus.OK);
     }
 }

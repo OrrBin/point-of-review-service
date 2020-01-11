@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class MongoModelDataStore implements ModelDataStore {
@@ -88,13 +89,12 @@ public class MongoModelDataStore implements ModelDataStore {
 
     @Override
     public boolean addCodeReview(CodeReview review) {
-        int i = 1;
         var snippet =  mongoTemplate.findOne(Query.query(Criteria.where("id").is(review.getCodeSnippetId())), CodeSnippet.class);
         if (snippet == null)
             return false;
         for ( CodeReviewSection section : review.getSections()){
             section.setCodeReviewId(review.getId());
-            section.setId(Integer.toString(i++));
+            section.setId(UUID.randomUUID().toString());
             section.setSubmitted(true);
         }
         snippet.addReview(review);

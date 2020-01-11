@@ -1,5 +1,6 @@
 package me.pointofreview.persistence;
 
+import me.pointofreview.core.objects.Impression;
 import me.pointofreview.core.objects.User;
 
 public interface UserDataStore {
@@ -72,4 +73,11 @@ public interface UserDataStore {
      * @return true if the update was successful, and false otherwise
      */
     // boolean changePassword(User user, String newPassword);
+
+    /**
+     * Updates existing user reputation
+     * @return true if the update was successful, and false otherwise
+     */
+    boolean updateUserReputation(User user, String voterId, String sourceId, Impression impression);
+
 }
