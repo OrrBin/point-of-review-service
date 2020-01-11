@@ -15,7 +15,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Score implements Comparable<Score> {
     private static final int LIMIT = 5;
-    private static final float RATIO = (float) 0.4;
+    //private static final float RATIO = (float) 0.4;
 
     private float score; //redundant
 
@@ -55,7 +55,7 @@ public class Score implements Comparable<Score> {
     }
 
     public int calculate(){
-        float likes, dislikes, hasEnoughImpressions,likesRatio;
+        float likes, dislikes;
         if (getImpressions().get(Impression.LIKE) == null) {
             likes = 0;
         } else {
@@ -66,10 +66,7 @@ public class Score implements Comparable<Score> {
         } else {
             dislikes = impressions.get(Impression.DISLIKE);
         }
-        if (dislikes+likes == 0) return 0;
-        hasEnoughImpressions = (likes + dislikes) > LIMIT ? 1 : 0 ;
-        likesRatio = likes / (likes + dislikes);
-        return (int)((dislikes == 0 && likes == 0) ? 0 : 100 * (RATIO * hasEnoughImpressions + (1-RATIO) * likesRatio));
+        return 10*((int)(1.5*likes-dislikes));
     }
 
 }
