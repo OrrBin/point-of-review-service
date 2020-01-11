@@ -23,15 +23,23 @@ public class TagGenerator {
 
     public static List<Tag> getSnippetTags(){
         Tag[] tags = new Tag[]{
-                new Tag("sorting", "algorithm"),
+                new Tag("Sorting", "algorithm"),
+
                 new Tag("GCD", "algorithm"),
-                new Tag("binary search", "algorithm"),
+                new Tag("Binary search", "algorithm"),
                 new Tag("BFS", "algorithm"),
-                new Tag("Dijkstra", "algorithm"),
-                new Tag("memory", "feedback"),
-                new Tag("complexity", "feedback"),
-                new Tag("design", "feedback"),
-                new Tag("modularity", "feedback")
+                new Tag("Algorithm", "algorithm"),
+                new Tag("Recursion", ""),
+                new Tag("Iterative", ""),
+                new Tag("Beginner", ""),
+                new Tag("Math", ""),
+                new Tag("String", "datatype"),
+                new Tag("Class", "datatype"),
+                new Tag("Integer", "datatype"),
+                new Tag("Memory", "feedback"),
+                new Tag("Complexity", "feedback"),
+                new Tag("Design", "feedback"),
+                new Tag("Modularity", "feedback")
         };
 
         return Arrays.asList(tags);
