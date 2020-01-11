@@ -15,7 +15,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Score implements Comparable<Score> {
     private static final int LIMIT = 5;
-    private static final float RATIO = (float) 0.3;
+    private static final float RATIO = (float) 0.4;
     float score;
     Map<Impression,Integer> impressions = new HashMap<>();
 

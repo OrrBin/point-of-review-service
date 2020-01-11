@@ -130,8 +130,11 @@ public class UserAuthentication {
         if (user == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String sourceId = StringUtils.isEmpty(request.codeReviewSectionId)? request.snippetId : request.codeReviewSectionId ;
-        userDataStore.updateUserReputation(user,request.voterId,sourceId,request.impression);
+        if (!request.uploaderName.equals(request.voterId)) {
+            // don't increase reputation if user votes on his own posts
+            String sourceId = StringUtils.isEmpty(request.codeReviewSectionId) ? request.snippetId : request.codeReviewSectionId;
+            userDataStore.updateUserReputation(user, request.voterId, sourceId, request.impression);
+        }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
