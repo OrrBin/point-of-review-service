@@ -1,5 +1,8 @@
 package me.pointofreview.persistence;
 
+import me.pointofreview.core.objects.Impression;
+import me.pointofreview.core.objects.Reputation;
+import me.pointofreview.core.objects.Score;
 import me.pointofreview.core.objects.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -58,5 +61,12 @@ public class MongoUserDataStore implements UserDataStore {
     @Override
     public void resetDatabase() {
         mongoTemplate.dropCollection(User.class);
+    }
+
+    @Override
+    public boolean updateUserReputation(User user,String voterId,String sourceId,Impression impression) {
+        user.updateImpressions(voterId,sourceId,impression);
+        mongoTemplate.save(user);
+        return true;
     }
 }

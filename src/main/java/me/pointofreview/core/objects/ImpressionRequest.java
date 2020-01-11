@@ -10,4 +10,5 @@ public class ImpressionRequest {
     public String codeReviewSectionId;
     public String voterId;
     public Impression impression;
+    public String uploaderName;
 }

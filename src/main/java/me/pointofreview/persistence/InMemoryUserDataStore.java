@@ -1,5 +1,6 @@
 package me.pointofreview.persistence;
 
+import me.pointofreview.core.objects.Impression;
 import me.pointofreview.core.objects.User;
 import org.springframework.stereotype.Component;
 
@@ -60,5 +61,10 @@ public class InMemoryUserDataStore implements UserDataStore {
     @Override
     public void resetDatabase() {
 
+    }
+
+    @Override
+    public boolean updateUserReputation(User user,String voterId ,String sourceId,Impression impression) {
+        return true;
     }
 }
