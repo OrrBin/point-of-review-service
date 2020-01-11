@@ -23,7 +23,7 @@ public class MongoUserDataStore implements UserDataStore {
 
     @Override
     public User getUserById(String userId) {
-        return mongoTemplate.findOne(Query.query(Criteria.where("userId").is(userId)), User.class);
+        return mongoTemplate.findOne(Query.query(Criteria.where("id").is(userId)), User.class);
     }
 
     @Override
