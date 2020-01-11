@@ -61,8 +61,15 @@ public class CodeSnippet {
         Collections.sort(snippets, Comparator.comparing(CodeSnippet::getTitle));
     }
 
+    //popularity calculation
+
+    public static int calculatePopularity(CodeSnippet snippet) {
+        //Calculated_Popularity = (1 + num_of_reviews)*(score)
+        return (1 + snippet.reviews.size())* snippet.getScore().calculate();
+    }
+
     public static void sortByPopularity(List<CodeSnippet> snippets) {
-        snippets.sort(Collections.reverseOrder(Comparator.comparing(snippet -> (snippet.getScore().getScore()))));
+        snippets.sort(Collections.reverseOrder(Comparator.comparing(CodeSnippet::calculatePopularity)));
     }
 
     //custom made by tags
