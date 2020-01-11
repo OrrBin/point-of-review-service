@@ -29,8 +29,8 @@ public class MongoModelDataStore implements ModelDataStore {
     }
 
     @Override
-    public List<CodeSnippet> getCodeSnippetsByUserId(String userId) {
-        return mongoTemplate.find(Query.query(Criteria.where("userId").is(userId)), CodeSnippet.class);
+    public List<CodeSnippet> getCodeSnippetsByUsername(String username) {
+        return mongoTemplate.find(Query.query(Criteria.where("username").is(username)), CodeSnippet.class);
     }
 
     @Override
@@ -134,4 +134,8 @@ public class MongoModelDataStore implements ModelDataStore {
         return true;
     }
 
+    @Override
+    public void resetDatabase() {
+        mongoTemplate.dropCollection(CodeSnippet.class);
+    }
 }

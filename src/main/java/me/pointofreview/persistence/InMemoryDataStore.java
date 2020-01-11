@@ -70,14 +70,14 @@ public class InMemoryDataStore implements ModelDataStore {
     }
 
     @Override
-    public List<CodeSnippet> getCodeSnippetsByUserId(String userId) {
-        var user = userDataStore.getUserById(userId);
+    public List<CodeSnippet> getCodeSnippetsByUsername(String username) {
+        var user = userDataStore.getUserById(username);
         if(user == null)
             return null;
 
         List<CodeSnippet> result = new ArrayList<>();
         for(var snippet : codeSnippets.values()) {
-            if(snippet.getUserId().equals(userId))
+            if(snippet.getUsername().equals(username))
                 result.add(snippet);
         }
 
@@ -145,5 +145,10 @@ public class InMemoryDataStore implements ModelDataStore {
             return false;
         snippet.updateImpressions(userId,impression);
         return true;
+    }
+
+    @Override
+    public void resetDatabase() {
+
     }
 }

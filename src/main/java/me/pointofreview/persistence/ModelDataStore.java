@@ -26,10 +26,10 @@ public interface ModelDataStore {
     /**
      * Get list of code snippets which belongs to the user with the ID
      *
-     * @param userId the user ID
+     * @param username the user ID
      * @return list of code snippets, may be empty
      */
-    List<CodeSnippet> getCodeSnippetsByUserId(String userId);
+    List<CodeSnippet> getCodeSnippetsByUsername(String username);
 
     /**
      * Get list of code snippets which contains a certain tag.
@@ -93,4 +93,8 @@ public interface ModelDataStore {
      */
     boolean updateCodeSnippetImpressions(CodeSnippet snippet, String userId, Impression impression);
 
+    /**
+     * Removes all code snippets from the database.
+     */
+        void resetDatabase();
     }

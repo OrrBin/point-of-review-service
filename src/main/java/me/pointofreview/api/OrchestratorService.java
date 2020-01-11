@@ -38,7 +38,6 @@ public class OrchestratorService {
 
     @GetMapping("/snippets/popular")
     public ResponseEntity<List<CodeSnippet>> popularSnippets(@RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
-        String user_id = "dsaidas";
         var result = dataStore.getAllCodeSnippets();
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -47,20 +46,20 @@ public class OrchestratorService {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/snippets/recommended/{userId}")
-    public ResponseEntity<List<CodeSnippet>> recommendedSnippets(@PathVariable(name = "userId") String userId,
+    @GetMapping("/snippets/recommended/{username}")
+    public ResponseEntity<List<CodeSnippet>> recommendedSnippets(@PathVariable(name = "username") String userId,
             @RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
         var result = dataStore.getAllCodeSnippets();
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUserId(userId));
+        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUsername(userId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/snippets/users/{userId}")
-    public ResponseEntity<List<CodeSnippet>> getSnippetsByUserId(@PathVariable(name = "userId") String userId) {
-        var result = dataStore.getCodeSnippetsByUserId(userId);
+    @GetMapping("/snippets/users/{username}")
+    public ResponseEntity<List<CodeSnippet>> getSnippetsByUsername(@PathVariable(name = "username") String username) {
+        var result = dataStore.getCodeSnippetsByUsername(username);
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

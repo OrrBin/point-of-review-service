@@ -19,7 +19,7 @@ public class CodeSnippet {
     @Id
     String id;
     long timestamp;
-    String userId;
+    String username;
     String title;
     String description;
     Code code;
