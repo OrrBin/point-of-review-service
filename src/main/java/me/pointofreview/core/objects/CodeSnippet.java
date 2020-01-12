@@ -65,7 +65,7 @@ public class CodeSnippet {
 
     public static int calculatePopularity(CodeSnippet snippet) {
         //Calculated_Popularity = (1 + num_of_reviews)*(score)
-        return (1 + snippet.reviews.size())* snippet.getScore().calculate();
+        return (1 + snippet.reviews.size()) * snippet.getScore().calculate();
     }
 
     public static void sortByPopularity(List<CodeSnippet> snippets) {
@@ -73,10 +73,10 @@ public class CodeSnippet {
     }
 
     //custom made by tags
-    public static Map<String, Integer> getTagCountMap(List<CodeSnippet> snippets){
+    public static Map<String, Integer> getTagCountMap(List<CodeSnippet> snippets) {
         Map<String, Integer> tagCount = new HashMap<>();
-        for (CodeSnippet codeSnip: snippets) {
-            for (Tag tag: codeSnip.getTags()) {
+        for (CodeSnippet codeSnip : snippets) {
+            for (Tag tag : codeSnip.getTags()) {
                 tagCount.merge(tag.getName(), 1, Integer::sum);
             }
         }
@@ -95,7 +95,7 @@ public class CodeSnippet {
         int maxCorScore = 0;
         Map<String, Integer> tagCount = getTagCountMap(userPersonalSnippets);
         for (Tag tag : tags) {
-            maxCorScore = Math.max(maxCorScore , getTagCount(tagCount, tag.getName()));
+            maxCorScore = Math.max(maxCorScore, getTagCount(tagCount, tag.getName()));
         }
 
         return maxCorScore;
@@ -105,5 +105,21 @@ public class CodeSnippet {
         snippets.sort(Collections.reverseOrder(Comparator.comparing(snippet -> getSnippetCorrelationScore(userPersonalSnippets, snippet.getTags()))));
     }
 
+    public static List<Tag> getTopTags(List<CodeSnippet> userPersonalSnippets) {
+        Map<String, Integer> tagCount = getTagCountMap(userPersonalSnippets);
+        List<String> list = new ArrayList<String>(tagCount.keySet());
+        list.sort(Comparator.comparing(tag -> getTagCount(tagCount, tag)));
+
+        if (list.size() > 3) {
+            list = list.subList(list.size() - 3, list.size());
+        }
+
+        List<Tag> tags = new ArrayList<>();
+        for (String tagName: list){
+            tags.add(new Tag(tagName, ""));
+        }
+
+        return tags;
+    }
 
 }
