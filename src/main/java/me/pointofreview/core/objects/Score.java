@@ -66,7 +66,7 @@ public class Score implements Comparable<Score> {
         } else {
             dislikes = impressions.get(Impression.DISLIKE);
         }
-        return 10*((int)(1.5*likes-dislikes));
+        return (int)(10*(2*likes-dislikes));
     }
 
 }
