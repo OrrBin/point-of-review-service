@@ -1,11 +1,6 @@
 package me.pointofreview.api;
 
 import me.pointofreview.core.objects.*;
-import me.pointofreview.core.objects.AuthenticationRequest;
-import me.pointofreview.core.objects.ReportStatus;
-import me.pointofreview.core.objects.Reputation;
-import me.pointofreview.core.objects.User;
-import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.UserDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -146,5 +141,16 @@ public class UserAuthentication {
         }
         Integer reputationScore = user.getReputation().calculate();
         return new ResponseEntity<>(reputationScore, HttpStatus.OK);
+    }
+
+    @GetMapping("/ban/{username}")
+    public ResponseEntity<Boolean> isBanned(@PathVariable(name = "username") String username) {
+        var user = userDataStore.getUserByUsername(username);
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        boolean isBanned = user.getReport().isBanned();
+
+        return new ResponseEntity<>(isBanned, HttpStatus.OK);
     }
 }

@@ -1,9 +1,11 @@
 package me.pointofreview.api;
 
 import lombok.extern.slf4j.Slf4j;
+import me.pointofreview.core.data.generator.GeneratorUtil;
 import me.pointofreview.core.data.generator.TagGenerator;
 import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
+import me.pointofreview.persistence.UserDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,12 @@ import java.util.stream.Stream;
 public class OrchestratorService {
 
     private final ModelDataStore dataStore;
+    private final UserDataStore userDataStore;
 
     @Autowired
-    public OrchestratorService(@Qualifier("mongoModelDataStore") ModelDataStore dataStore) {
+    public OrchestratorService(@Qualifier("mongoModelDataStore") ModelDataStore dataStore, @Qualifier("mongoUserDataStore") UserDataStore userDataStore) {
         this.dataStore = dataStore;
+        this.userDataStore = userDataStore;
     }
 
     @GetMapping("/snippets/recent")
@@ -32,6 +36,7 @@ public class OrchestratorService {
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         CodeSnippet.sortByTimestamps(result);
+        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
@@ -43,6 +48,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByPopularity(result);
+        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -54,6 +60,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUsername(userId));
+        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -72,6 +79,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
+        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -82,6 +90,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
+        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -92,6 +101,7 @@ public class OrchestratorService {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
+        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -102,6 +112,7 @@ public class OrchestratorService {
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+        GeneratorUtil.sortReviewByReputation(result.getReviews(), userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

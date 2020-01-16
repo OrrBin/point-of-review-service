@@ -24,7 +24,6 @@ public class TagGenerator {
     public static List<Tag> getSnippetTags(){
         Tag[] tags = new Tag[]{
                 new Tag("Sorting", "algorithm"),
-
                 new Tag("GCD", "algorithm"),
                 new Tag("Binary search", "algorithm"),
                 new Tag("BFS", "algorithm"),
