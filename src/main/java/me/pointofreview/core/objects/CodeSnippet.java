@@ -65,7 +65,7 @@ public class CodeSnippet {
 
     public static int calculatePopularity(CodeSnippet snippet) {
         //Calculated_Popularity = (1 + num_of_reviews)*(score)
-        return (1 + snippet.reviews.size()) * snippet.getScore().calculate();
+        return snippet.getScore().calculate();
     }
 
     public static void sortByPopularity(List<CodeSnippet> snippets) {

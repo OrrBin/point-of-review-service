@@ -66,8 +66,7 @@ public class OrchestratorService {
 
 
     @GetMapping("/snippets/{username}/tags")
-    public ResponseEntity<List<Tag>> topUserTags(@PathVariable(name = "username") String userId,
-                                                                 @RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
+    public ResponseEntity<List<Tag>> topUserTags(@PathVariable(name = "username") String userId) {
         var result = CodeSnippet.getTopTags(dataStore.getCodeSnippetsByUsername(userId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
