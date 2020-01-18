@@ -1,8 +1,6 @@
 package me.pointofreview.api;
 
-import me.pointofreview.core.objects.CodeSnippet;
-import me.pointofreview.core.objects.Statistics;
-import me.pointofreview.core.objects.Tag;
+import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +34,7 @@ public class StatisticsCollector {
      * @HttpStatus FORBIDDEN - no tags are matching the query (empty distribution)
      */
     @GetMapping("/statistics")
-    public ResponseEntity<List<Statistics.Stat>> login(@RequestParam String statType, @RequestParam(required = false) Integer limit) {
+    public ResponseEntity<List<Statistics.Stat>> getStatistics(@RequestParam String statType, @RequestParam(required = false) Integer limit) {
         List<CodeSnippet> snippets = modelDataStore.getAllCodeSnippets();
         Map<String, Integer> tagCounts = new HashMap<>();
         int total = 0;
@@ -53,6 +51,44 @@ public class StatisticsCollector {
         }
 
         Statistics statistics = new Statistics(statType, total);
+
+        if (total == 0) // no tags match the statType
+            return new ResponseEntity<>(statistics.getStatList(), HttpStatus.OK);
+
+
+
+        for (Map.Entry<String, Integer> entry : tagCounts.entrySet()) {
+            statistics.add(entry.getKey(), entry.getValue());
+        }
+
+        if (limit != null && limit < statistics.getStatList().size()) {
+            reduceStatList(statistics, limit);
+        }
+
+        return new ResponseEntity<>(statistics.getStatList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/statistics/reviews")
+    public ResponseEntity<List<Statistics.Stat>> getReviewStatistics(@RequestParam(required = false) Integer limit) {
+        List<CodeSnippet> snippets = modelDataStore.getAllCodeSnippets();
+        Map<String, Integer> tagCounts = new HashMap<>();
+        int total = 0;
+
+        for (CodeSnippet snippet : snippets) {
+            for (CodeReview codeReview : snippet.getReviews()) {
+                for (CodeReviewSection section : codeReview.getSections())
+                    for (Tag tag : section.getTags()) {
+                    if (!(tag.getType().equals("feedback"))) {
+                        continue;
+                    }
+                    int tagCount = tagCounts.getOrDefault(tag.getName(), 0);
+                    tagCounts.put(tag.getName(), tagCount + 1);
+                    total++;
+                }
+            }
+        }
+
+        Statistics statistics = new Statistics("feedback", total);
 
         if (total == 0) // no tags match the statType
             return new ResponseEntity<>(statistics.getStatList(), HttpStatus.OK);
