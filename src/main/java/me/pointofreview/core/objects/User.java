@@ -3,6 +3,8 @@ package me.pointofreview.core.objects;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,6 +16,7 @@ public class User {
     String id;
     Reputation reputation;
     ReportStatus report;
+    List<Notification> notifications;
 
     public void updateImpressions(String voterId,String sourceId,Impression impression) {
         reputation.updateImpressions(voterId,sourceId,impression);

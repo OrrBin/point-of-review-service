@@ -1,10 +1,12 @@
 package me.pointofreview.persistence;
 
 import me.pointofreview.core.objects.Impression;
+import me.pointofreview.core.objects.Notification;
 import me.pointofreview.core.objects.User;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -65,6 +67,16 @@ public class InMemoryUserDataStore implements UserDataStore {
 
     @Override
     public boolean updateUserReputation(User user,String voterId ,String sourceId,Impression impression) {
+        return true;
+    }
+
+    @Override
+    public List<Notification> getNotificationsByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public boolean addNotification(String username, Notification notification){
         return true;
     }
 }

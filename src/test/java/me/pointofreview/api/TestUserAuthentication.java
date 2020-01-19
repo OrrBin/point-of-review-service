@@ -2,10 +2,7 @@ package me.pointofreview.api;
 
 import me.pointofreview.Application;
 import me.pointofreview.core.data.generator.UserGenerator;
-import me.pointofreview.core.objects.AuthenticationRequest;
-import me.pointofreview.core.objects.ReportStatus;
-import me.pointofreview.core.objects.Reputation;
-import me.pointofreview.core.objects.User;
+import me.pointofreview.core.objects.*;
 import org.junit.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -15,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestContextManager;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -54,7 +53,7 @@ public class TestUserAuthentication {
 
     @Test
     public void loginAttemptShouldSucceed() {
-        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation(), new ReportStatus()));
+        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation(), new ReportStatus(), new ArrayList<Notification>()));
 
         String username = "ScrumMaster", password = "123456";
 
@@ -68,7 +67,7 @@ public class TestUserAuthentication {
 
     @Test
     public void registerShouldFailWithConflict() {
-        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation(), new ReportStatus()));
+        mongoTemplate.insert(new User("ScrumMaster", "123456", "key-123", new Reputation(), new ReportStatus(), new ArrayList<Notification>()));
 
         String username = "ScrumMaster", password = "Or_Binyamini";
 

@@ -53,13 +53,13 @@ public class OrchestratorService {
     }
 
     @GetMapping("/snippets/recommended/{username}")
-    public ResponseEntity<List<CodeSnippet>> recommendedSnippets(@PathVariable(name = "username") String userId,
+    public ResponseEntity<List<CodeSnippet>> recommendedSnippets(@PathVariable(name = "username") String username,
             @RequestParam(value = "maximumNumber", defaultValue = "10") int maximumNumber) {
         var result = dataStore.getAllCodeSnippets();
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUsername(userId));
+        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUsername(username));
         GeneratorUtil.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

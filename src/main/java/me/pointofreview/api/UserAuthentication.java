@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -60,7 +62,7 @@ public class UserAuthentication {
             return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
 
         // Create user
-        var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation(), new ReportStatus());
+        var user = new User(request.username, request.password, UUID.randomUUID().toString(), new Reputation(), new ReportStatus(), new ArrayList<Notification>());
         var created = userDataStore.createUser(user);
 
         if (!created)
@@ -143,6 +145,12 @@ public class UserAuthentication {
         return new ResponseEntity<>(reputationScore, HttpStatus.OK);
     }
 
+    /**
+     * Checks the ban status of a user.
+     * @param username username of user to check
+     * @return true if the user is banned, false otherwise
+     * @HttpStatus BAD_REQUEST - user doesn't exist in the system
+     */
     @GetMapping("/ban/{username}")
     public ResponseEntity<Boolean> isBanned(@PathVariable(name = "username") String username) {
         var user = userDataStore.getUserByUsername(username);
@@ -152,5 +160,36 @@ public class UserAuthentication {
         boolean isBanned = user.getReport().isBanned();
 
         return new ResponseEntity<>(isBanned, HttpStatus.OK);
+    }
+
+    /**
+     * Returns the list of notifications of a user.
+     * @param username username of the user
+     * @return list of notifications
+     * @HttpStatus BAD_REQUEST - user doesn't exist in the system
+     */
+    @GetMapping("/notifications/{username}")
+    public ResponseEntity<List<Notification>> getNotifications(@PathVariable(name = "username") String username) {
+        var notifications = userDataStore.getNotificationsByUsername(username);
+        if (notifications == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(notifications, HttpStatus.OK);
+    }
+
+    /**
+     * Adds a notification to the list of notifications of a user.
+     * @param username username of the user
+     * @return true if successful, false otherwise
+     * @HttpStatus BAD_REQUEST - user doesn't exist in the system
+     */
+    @PostMapping("/notifications/{username}")
+    public ResponseEntity<Boolean> addNotification(@PathVariable(name = "username") String username,
+                                                               @RequestBody Notification notification) {
+        var result = userDataStore.addNotification(username, notification);
+        if (!result){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

@@ -1,14 +1,13 @@
 package me.pointofreview.persistence;
 
-import me.pointofreview.core.objects.Impression;
-import me.pointofreview.core.objects.Reputation;
-import me.pointofreview.core.objects.Score;
-import me.pointofreview.core.objects.User;
+import me.pointofreview.core.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class MongoUserDataStore implements UserDataStore {
@@ -66,6 +65,24 @@ public class MongoUserDataStore implements UserDataStore {
     @Override
     public boolean updateUserReputation(User user,String voterId,String sourceId,Impression impression) {
         user.updateImpressions(voterId,sourceId,impression);
+        mongoTemplate.save(user);
+        return true;
+    }
+
+    @Override
+    public List<Notification> getNotificationsByUsername(String username) {
+        var user = mongoTemplate.findOne(Query.query(Criteria.where("username").is(username)), User.class);
+        if (user == null)
+            return null;
+        return user.getNotifications();
+    }
+
+    @Override
+    public boolean addNotification(String username, Notification notification) {
+        var user = mongoTemplate.findOne(Query.query(Criteria.where("username").is(username)), User.class);
+        if (user == null)
+            return false;
+        user.getNotifications().add(0, notification);
         mongoTemplate.save(user);
         return true;
     }

@@ -1,7 +1,10 @@
 package me.pointofreview.persistence;
 
 import me.pointofreview.core.objects.Impression;
+import me.pointofreview.core.objects.Notification;
 import me.pointofreview.core.objects.User;
+
+import java.util.List;
 
 public interface UserDataStore {
 
@@ -80,4 +83,18 @@ public interface UserDataStore {
      */
     boolean updateUserReputation(User user, String voterId, String sourceId, Impression impression);
 
+    /**
+     * Get list of notifications of a user.
+     * @param username - the user
+     * @return list of notifications if user exists, null otherwise
+     */
+    List<Notification> getNotificationsByUsername(String username);
+
+    /**
+     * Add a notification to a user.
+     * @param username - the user
+     * @param notification - the notification
+     * @return return true if successful, false otherwise
+     */
+    boolean addNotification(String username, Notification notification);
 }
