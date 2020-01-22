@@ -73,13 +73,27 @@ public class CodeSnippet {
     }
 
     //custom made by tags
-    public static Map<String, Integer> getTagCountMap(List<CodeSnippet> snippets) {
+    public static Map<String, Integer> getTagCountMap(List<CodeSnippet> userSnippets, List<CodeSnippet> allSnippets, String username) {
         Map<String, Integer> tagCount = new HashMap<>();
-        for (CodeSnippet codeSnip : snippets) {
+
+        for (CodeSnippet codeSnip : userSnippets) { // get tags from snippets
             for (Tag tag : codeSnip.getTags()) {
                 tagCount.merge(tag.getName(), 1, Integer::sum);
             }
         }
+
+        for (CodeSnippet snippet : allSnippets) { // get tags from review
+            for (CodeReview review : snippet.getReviews()) {
+                if (review.getUserId().equals(username)) {
+                    for (CodeReviewSection section : review.getSections()) {
+                        for (Tag tag : section.getTags()) {
+                            tagCount.merge(tag.getName(), 1, Integer::sum);
+                        }
+                    }
+                }
+            }
+        }
+
         return tagCount;
     }
 
@@ -91,9 +105,9 @@ public class CodeSnippet {
         return 0;
     }
 
-    public static int getSnippetCorrelationScore(List<CodeSnippet> userPersonalSnippets, List<Tag> tags) {
+    public static int getSnippetCorrelationScore(List<CodeSnippet> userPersonalSnippets, List<CodeSnippet> allSnippets, List<Tag> tags, String username) {
         int maxCorScore = 0;
-        Map<String, Integer> tagCount = getTagCountMap(userPersonalSnippets);
+        Map<String, Integer> tagCount = getTagCountMap(userPersonalSnippets, allSnippets, username);
         for (Tag tag : tags) {
             maxCorScore = Math.max(maxCorScore, getTagCount(tagCount, tag.getName()));
         }
@@ -101,12 +115,12 @@ public class CodeSnippet {
         return maxCorScore;
     }
 
-    public static void sortByCustomUser(List<CodeSnippet> snippets, List<CodeSnippet> userPersonalSnippets) {
-        snippets.sort(Collections.reverseOrder(Comparator.comparing(snippet -> getSnippetCorrelationScore(userPersonalSnippets, snippet.getTags()))));
+    public static void sortByCustomUser(List<CodeSnippet> snippets, List<CodeSnippet> userPersonalSnippets, List<CodeSnippet> allSnippets, String username) {
+        snippets.sort(Collections.reverseOrder(Comparator.comparing(snippet -> getSnippetCorrelationScore(userPersonalSnippets, allSnippets, snippet.getTags(), username))));
     }
 
-    public static List<Tag> getTopTags(List<CodeSnippet> userPersonalSnippets) {
-        Map<String, Integer> tagCount = getTagCountMap(userPersonalSnippets);
+    public static List<Tag> getTopTags(List<CodeSnippet> userSnippets, List<CodeSnippet> allSnippets, String username) {
+        Map<String, Integer> tagCount = getTagCountMap(userSnippets, allSnippets, username);
         List<String> list = new ArrayList<String>(tagCount.keySet());
         list.sort(Comparator.comparing(tag -> getTagCount(tagCount, tag)));
 
@@ -115,7 +129,7 @@ public class CodeSnippet {
         }
 
         List<Tag> tags = new ArrayList<>();
-        for (String tagName: list){
+        for (String tagName : list) {
             tags.add(new Tag(tagName, ""));
         }
 

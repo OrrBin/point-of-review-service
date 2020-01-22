@@ -12,12 +12,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class GeneratorUtil {
+public class Util {
     private final ModelDataStore modelDataStore;
     private final UserDataStore userDataStore;
 
     @Autowired
-    public GeneratorUtil(@Qualifier("mongoModelDataStore") ModelDataStore modelDataStore, @Qualifier("mongoUserDataStore") UserDataStore userDataStore) {
+    public Util(@Qualifier("mongoModelDataStore") ModelDataStore modelDataStore, @Qualifier("mongoUserDataStore") UserDataStore userDataStore) {
         this.userDataStore = userDataStore;
         this.modelDataStore = modelDataStore;
     }

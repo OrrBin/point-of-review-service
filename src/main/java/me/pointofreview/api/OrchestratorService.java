@@ -1,7 +1,7 @@
 package me.pointofreview.api;
 
 import lombok.extern.slf4j.Slf4j;
-import me.pointofreview.core.data.generator.GeneratorUtil;
+import me.pointofreview.core.data.generator.Util;
 import me.pointofreview.core.data.generator.TagGenerator;
 import me.pointofreview.core.objects.*;
 import me.pointofreview.persistence.ModelDataStore;
@@ -36,7 +36,7 @@ public class OrchestratorService {
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         CodeSnippet.sortByTimestamps(result);
-        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
+        Util.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
@@ -48,7 +48,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByPopularity(result);
-        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
+        Util.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -59,15 +59,15 @@ public class OrchestratorService {
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUsername(username));
-        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
+        CodeSnippet.sortByCustomUser(result , dataStore.getCodeSnippetsByUsername(username), dataStore.getAllCodeSnippets(), username);
+        Util.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
     @GetMapping("/snippets/{username}/tags")
-    public ResponseEntity<List<Tag>> topUserTags(@PathVariable(name = "username") String userId) {
-        var result = CodeSnippet.getTopTags(dataStore.getCodeSnippetsByUsername(userId));
+    public ResponseEntity<List<Tag>> topUserTags(@PathVariable(name = "username") String username) {
+        var result = CodeSnippet.getTopTags(dataStore.getCodeSnippetsByUsername(username), dataStore.getAllCodeSnippets(), username);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -78,7 +78,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
-        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
+        Util.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -89,7 +89,7 @@ public class OrchestratorService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
-        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
+        Util.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -100,7 +100,7 @@ public class OrchestratorService {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         CodeSnippet.sortByTimestamps(result);
-        GeneratorUtil.sortReviewsByReputation(result, userDataStore);
+        Util.sortReviewsByReputation(result, userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -111,7 +111,7 @@ public class OrchestratorService {
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        GeneratorUtil.sortReviewByReputation(result.getReviews(), userDataStore);
+        Util.sortReviewByReputation(result.getReviews(), userDataStore);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

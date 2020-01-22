@@ -15,6 +15,8 @@ public class ReportStatus {
     Long banExpire = System.currentTimeMillis();
 
     public boolean addReport(String reportType){
+        if (isBanned())
+            return true;
         if (!(reportType.equals("spam") || reportType.equals("badLanguage") || reportType.equals("misleading")))
             return false;
         if (reportType.equals("spam"))
@@ -23,8 +25,14 @@ public class ReportStatus {
             badLanguage++;
         if (reportType.equals("misleading"))
             misleading++;
-        if (spam + badLanguage + misleading >= 3)
-            banExpire = System.currentTimeMillis() + 1000 * 60; // 1 minute ban
+        int totalReports = spam + badLanguage + misleading;
+
+        if (totalReports > 0 && totalReports % 3 == 0) { // each 3 reports
+            int times = totalReports / 3; // number of bans
+            int day = 1000 * 60 * 60 * 24;
+            int length = (int) Math.pow(2, times); // first ban is 2 days, after that 4, 8...
+            banExpire = System.currentTimeMillis() + day * length; // 1 minute ban
+        }
 
         return true;
     }
