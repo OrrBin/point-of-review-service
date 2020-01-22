@@ -1,4 +1,4 @@
-## Point of <Re>view
+## Point of Review
 
 Collaborative platform for code reviews.
 Made by: Allen, Yahav, Oz, Orr
